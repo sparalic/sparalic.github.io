@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/projects/</link>
+    <description>Recent content in Projects on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 18 Nov 2018 12:00:00 -0500</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/projects/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Poisonous Plant Classifier using RESNET 34 fast.ai library</title>
+      <link>https://sparalic.github.io/projects/poisonous-plants-app/</link>
+      <pubDate>Sun, 18 Nov 2018 12:00:00 -0500</pubDate>
+      
+      <guid>https://sparalic.github.io/projects/poisonous-plants-app/</guid>
+      <description>Are you an avid outdoor explorer? Well this classifier can help you identify America&amp;rsquo;s top 10 poisonous plants, so that you can spend your time enjoying the outdoors.This web app can help you identify these pesky show stoppers by simply uploading an image of the any of these 10 culprits for confirmation.
+Update: I am working on porting this to a mobile app
+Here is an screen shot of the first iteration of the webapp:   </description>
+    </item>
+    
+  </channel>
+</rss>

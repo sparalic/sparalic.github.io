@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PECAM-1 on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/tags/pecam-1/</link>
+    <description>Recent content in PECAM-1 on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 01 Mar 2016 10:58:08 -0400</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/tags/pecam-1/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Fluid shear stress induces upregulation of COX-2 and PGI release in endothelial cells via a pathway involving PECAM-1, PI3K, FAK, and p38.</title>
+      <link>https://sparalic.github.io/publications/fluid-shear-stress-induces-upregulation-of-cox-2-and-pgi-release-in-endothelial-cells-via-a-pathway-involving-pecam-1-pi3k-fak-and-p38/</link>
+      <pubDate>Tue, 01 Mar 2016 10:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/publications/fluid-shear-stress-induces-upregulation-of-cox-2-and-pgi-release-in-endothelial-cells-via-a-pathway-involving-pecam-1-pi3k-fak-and-p38/</guid>
+      <description>Determine the major mechanotransduction pathway by which blood flow-driven shear stress activates cyclooxygenase-2 (COX-2) and prostaglandin I2 (PGI2) release in endothelial cells. Our work has demonstrated for the first time that COX-2/PGI2 mechanotransduction is mediated by the mechanosensor platelet endothelial cell adhesion mole- cule-1 (PECAM-1). Link to Paper.</description>
+    </item>
+    
+  </channel>
+</rss>

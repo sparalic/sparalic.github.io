@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://sparalic.github.io/post/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/electronic-health-records/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/grus/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/healthcare/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/post/predicting-future-medical-diagnoses-with-rnns-using-fast-ai-api-from-scratch/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/pytorch/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/rnns/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/deep-learning/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/fast.ai/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/machine-learning/</loc>
+    <lastmod>2019-04-20T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/</loc>
+    <lastmod>2019-03-11T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/</loc>
+    <lastmod>2019-03-05T10:57:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/cross-entropy/</loc>
+    <lastmod>2019-03-05T10:57:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/post/gated-recurrent-units-explained-using-matrices-part-1/</loc>
+    <lastmod>2019-02-24T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/cnns/</loc>
+    <lastmod>2018-11-18T12:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/nature/</loc>
+    <lastmod>2018-11-18T12:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/projects/poisonous-plants-app/</loc>
+    <lastmod>2018-11-18T12:00:00-05:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/projects/</loc>
+    <lastmod>2018-11-18T12:00:00-05:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/breast-cancer/</loc>
+    <lastmod>2017-07-27T14:00:58-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/post/predicting-breast-cancer/</loc>
+    <lastmod>2017-07-27T14:00:58-07:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/cardiovascular/</loc>
+    <lastmod>2017-04-04T12:00:00-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/post/diagnostic-model-for-predicting-cardiovascular-disease-risk/</loc>
+    <lastmod>2017-04-04T12:00:00-05:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/fluid-shear-stress/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/publications/fluid-shear-stress-induces-upregulation-of-cox-2-and-pgi-release-in-endothelial-cells-via-a-pathway-involving-pecam-1-pi3k-fak-and-p38/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/glycocalyx/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/pecam-1/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/primary-cilia/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/publications/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/syndecan-4/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/cyclooxygenase-2/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/integrins/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/prostaglandin-i2/</loc>
+    <lastmod>2016-03-01T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/coculture/</loc>
+    <lastmod>2015-09-12T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/endothelial-cells/</loc>
+    <lastmod>2015-09-12T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/hydraulic-conductivity/</loc>
+    <lastmod>2015-09-12T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/publications/hydraulic-conductivity-of-smooth-muscle-cell-initiated-arterial-cocultures/</loc>
+    <lastmod>2015-09-12T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/porous-membrane/</loc>
+    <lastmod>2015-09-12T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/smooth-muscle-cells/</loc>
+    <lastmod>2015-09-12T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/publications/hydraulic-conductivity-of-endothelial-cell-initiated-arterial-cocultures/</loc>
+    <lastmod>2013-11-22T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/electrophoresis/</loc>
+    <lastmod>2011-10-26T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/heat-degradation/</loc>
+    <lastmod>2011-10-26T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/hyaluronan/</loc>
+    <lastmod>2011-10-26T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/publications/improved-agarose-gel-electrophoresis-method-and-molecular-mass-calculation-for-high-molecular-mass-hyaluronan./</loc>
+    <lastmod>2011-10-26T10:58:08-04:00</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/molecular-mass/</loc>
+    <lastmod>2011-10-26T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/molecular-weight/</loc>
+    <lastmod>2011-10-26T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/solution-viscosity/</loc>
+    <lastmod>2011-10-26T10:58:08-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/about/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://sparalic.github.io/tags/fast-ai/</loc>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

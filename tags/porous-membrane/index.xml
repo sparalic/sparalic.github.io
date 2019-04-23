@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Porous Membrane on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/tags/porous-membrane/</link>
+    <description>Recent content in Porous Membrane on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 12 Sep 2015 10:58:08 -0400</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/tags/porous-membrane/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hydraulic Conductivity of Smooth Muscle Cell-Initiated Arterial Cocultures.</title>
+      <link>https://sparalic.github.io/publications/hydraulic-conductivity-of-smooth-muscle-cell-initiated-arterial-cocultures/</link>
+      <pubDate>Sat, 12 Sep 2015 10:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/publications/hydraulic-conductivity-of-smooth-muscle-cell-initiated-arterial-cocultures/</guid>
+      <description>The purpose of the study was to examine the effects of arterial coculture conditions on the transport properties of several in vitro endothelial cell (EC)-smooth muscle cell (SMC)-porous filter constructs in which SMC were grown to confluence first and then EC were inoculated. This order of culturing simulates the environment of a blood vessel wall after endothelial layer damage due to stenting, vascular grafting or other vascular wall insult. For all coculture configurations examined, we observed that hydraulic conductivity (L(p)) values were significantly higher than predicted by a resistances-in-series (RIS) model accounting for the L(p) of EC and SMC measured separately.</description>
+    </item>
+    
+    <item>
+      <title>Hydraulic conductivity of endothelial cell-initiated arterial cocultures.</title>
+      <link>https://sparalic.github.io/publications/hydraulic-conductivity-of-endothelial-cell-initiated-arterial-cocultures/</link>
+      <pubDate>Fri, 22 Nov 2013 10:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/publications/hydraulic-conductivity-of-endothelial-cell-initiated-arterial-cocultures/</guid>
+      <description>This study describes cocultures of arterial smooth muscle cells (SMCs) and endothelial cells (ECs) and the influences of their heterotypic interactions on hydraulic conductivity (L p ), an important transport property. A unique feature of these cocultures is that ECs were first grown to confluence and then SMCs were inoculated. Bovine aortic smooth muscle cells and bovine aortic endothelial cells (BAECs) were cocultured on Transwell Permeable Supports, and then exposed to a pressure-driven transmural flow.</description>
+    </item>
+    
+  </channel>
+</rss>

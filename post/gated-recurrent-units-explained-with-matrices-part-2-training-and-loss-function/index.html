@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Sparkle Russell-Puleri  | Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function" />
+<meta property="og:description" content="Demystifying the math behind GRUs" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sparalic.github.io/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/" />
+<meta property="article:published_time" content="2019-03-05T10:57:08-04:00"/>
+<meta property="article:modified_time" content="2019-03-05T10:57:08-04:00"/>
+
+<meta itemprop="name" content="Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function">
+<meta itemprop="description" content="Demystifying the math behind GRUs">
+
+
+<meta itemprop="datePublished" content="2019-03-05T10:57:08-04:00" />
+<meta itemprop="dateModified" content="2019-03-05T10:57:08-04:00" />
+<meta itemprop="wordCount" content="780">
+
+
+
+<meta itemprop="keywords" content="GRUs,deep Learning,RNNs,deep learning,machine learning,cross entropy," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function"/>
+<meta name="twitter:description" content="Demystifying the math behind GRUs"/>
+<meta name="twitter:site" content="@sparklepuleri"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  
+  
+  <header class="cover bg-top" style="background-image: url('https://sparalic.github.io/images/ce.png');">
+    <div class="pb3-m pb6-l bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://sparalic.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Sparkle Russell-Puleri
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Blog page">
+              Blog
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/projects/" title="Projects page">
+              Projects
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/publications/" title="Publications page">
+              Publications
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function</h1>
+          
+            <h2 class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Demystifying the math behind GRUs
+            </h2>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        BLOG
+      </p>
+      <h1 class="f1 athelas mb1">Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-03-05T10:57:08-04:00">March 5, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>by: <a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/">Sparkle Russell-Puleri</a> and <a href="https://www.linkedin.com/in/dorian-puleri-ph-d-25114511/">Dorian Puleri</a></p>
+
+<p>Medium:<a href="https://medium.com/@sparklerussell/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function-7e7147b7f2ae">Medium Post</a></p>
+
+<p>In <a href="https://towardsdatascience.com/gate-recurrent-units-explained-using-matrices-part-1-3c781469fc18">part one</a> of this tutorial series, we demonstrated the matrix operations used to estimate the hidden states and outputs for the forward pass of a GRU. Based on our poor results, we obviously need to optimize our algorithm and test it on a test set to ensure generalizability. This is typically done using several steps/techniques. In this tutorial we will walkthrough what happens under the hood during optimization, specifically calculating the loss function and performing backpropagation through time to update the weights over several epochs.</p>
+
+<script type="application/javascript" src="//gist.github.com/sparalic/c064aa09f7b0bac71764054313ed0df2.js"></script>
+
+<p><strong> What’s happening here?</strong><br>
+As we pointed out in the first tutorial the first couple of strings generated are a bit erratic, but after a few passes it seems to get at least the next two characters correct. However, in order to measure how inconsistent our predictions are versus the true labels, we need a metric. This metric is call the loss function, that measures how well the model is performing. It is a positive value that decreases as the network becomes more confident with it’s predictions. This loss function for multi-class classification problems is defined as:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*hjQPgT1WdcVlXQs0yBxNjQ.png" alt="img" /></p>
+
+<p><center>Cross entropy equation</center></p>
+
+<p>Recall, our calculated hidden states and predicted outputs for the first batch? This picture seems a bit busy, however the goal here is to visualize what you outputs and hidden states actually look like under the hood. The predictions are probabilities which were calculated using the Softmax activation function.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*8r2d_Tqd0bbg5kYTe_DqSw.png" alt="img" /></p>
+
+<p>GRU outputs with matrices</p>
+
+<p>Let’s re-run the training loop storing the outputs ( y<em>hat) and hidden states (h</em>(t-1), h<em>t, and, h</em>(t+1)) for each sequence in batch 1.</p>
+
+<p><strong> Illustration in code:</strong><br>
+To understand what is happening you will notice that we work from the inside out, before moving to functions. Here, we are grabbing the outputs and hidden states calculated with just two loops.
+<script src="https://gist.github.com/sparalic/29d16dd1103580eea3f077dc2515ae11.js"></script></p>
+
+<p>The cross entropy loss is first calculated for each sequence in the batch then averaged over all sequences. So, in this example we will calculate the cross entropy loss for each sequence from scratch. But first, let’s grab the predictions made on the first batch. To do this we will grab the for element ( index 0) from our ht_2 and outputs variables.</p>
+
+<script src="https://gist.github.com/sparalic/dac4a7cbd061918feccde16729f84a41.js"></script>
+
+<p><center>Model predictions and hidden states for the first batch</center></p>
+
+<p><strong>How well did we perform?</strong></p>
+
+<p>By looking at the output probabilities we can tell that we did not do so well. However, let’s quantify it using the cross entropy equation! Here we will work our way from the inner term out on the first sequence in the batch. Note, the code will included all 3 sequences in batch 1.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*lUUmNbjMNS1rfX4El9i5VA.png" alt="img" /></p>
+
+<p><strong>First term:</strong> Element-wise multiplication of the true labels with the log of the predicted labels</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*GA9celuV8C1zouFte1eE7Q.png" alt="img" /></p>
+
+<p><center>Cross entropy term 1 calculation</center></p>
+
+<p><strong>Implementation in code:</strong></p>
+
+<script src="https://gist.github.com/sparalic/d7170e6af90d48976a31f22cf1b3d14c.js"></script>
+
+<p><strong>Second term:</strong>Summation of remaining values within each sequence. In this step, it is key to note that the axis will be reduced row-wise, only containing the non-zero terms. This will be done in a loop programatically.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*bOLRznERdlJ2tzFcmvy4UQ.png" alt="img" /></p>
+
+<p><center>Cross entropy term 2 calculation</center></p>
+
+<p><strong>Implementation in code:</strong></p>
+
+<script src="https://gist.github.com/sparalic/d5ba1b679576777c1c8b6a5b5f4bda0d.js"></script>
+
+<p><strong>Third term:</strong> Mean of the reduced samples for first sequence within the batch tow-wise. This example calculation was done on the first sequence within batch 1. However, the code implementation covers all 3 sequences in batch 1.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*Xju6WqPDo5SalVFG5Nbk4A.png" alt="img" />
+<center>Cross entropy term 3 calculation</center><br></p>
+
+<p><strong>Implementation in code:</strong></p>
+
+<script src="https://gist.github.com/sparalic/471b9d94c61ef7233b3fe5e055043162.js"></script>
+
+<p><strong>Averaging the cross entropy losses of each sequence within batch 1</strong><br>
+Note, in practice this step will be done over each mini-batch by keeping a running average of the losses for each batch. It essentially sums up what we calculated for the cross entropy (loss for each sequence in batch 1) and divides it by the number of sequences within the batch.</p>
+
+<script src="https://gist.github.com/sparalic/011208c8d34f4d618e97bd67bec2427f.js"></script>
+
+<p><strong>How did we do?</strong><br>
+<script src="https://gist.github.com/sparalic/7e3e9a8da6b2ae96c655581aee9b3879.js"></script></p>
+
+<p><strong>Explanation</strong><br>
+So we optimized reduced our loss and we are not predicting well…why? Well, as mentioned in the first tutorial this is an extremely small dataset, when training on a neural net made from scratch. It is recommended that you do so with lots of data. However, the purpose of this tutorial is not to create the high performance neural net, but to demonstrate what goes on under the hood.</p>
+
+<p><strong>Backpropagation</strong><br>
+The final step involves a backward pass through the algorithm. This step is called backpropagation, and it involves understanding the impact of adjusting the weights on the cost function. This is done by calculating the error vectors delta starting from the final layer backward by repeatedly applying the chain rule through each layer. For more detailed proof of back-prop through time: <a href="https://github.com/tianyic/LSTM-GRU/blob/master/MTwrtieup.pdf">https://github.com/tianyic/LSTM-GRU/blob/master/MTwrtieup.pdf</a></p>
+
+<p><strong>References:</strong><br>
+1. The Unreasonable Effectiveness of Recurrent Neural Networks
+2. Udacity Deep Learning with Pytorch
+3. Fastai Deep Learning for Coders
+4. Deep Learning — The Straight Dope (RNNs)
+5. Deep Learning Book</p>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/grus" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">GRUs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deep Learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/rnns" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">RNNs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deep learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/machine-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">machine learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/cross-entropy" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">cross entropy</a>
+   </li>
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/post/gated-recurrent-units-explained-using-matrices-part-1/">Gated Recurrent Units explained using matrices: Part 1</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/projects/poisonous-plants-app/">Poisonous Plant Classifier using RESNET 34 fast.ai library</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/predicting-breast-cancer/">Predicting Breast Cancer</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/diagnostic-model-for-predicting-cardiovascular-disease-risk/">Diagnostic model for predicting Cardiovascular Disease Risk</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://sparalic.github.io/" >
+    &copy; 2019 Sparkle Russell-Puleri
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

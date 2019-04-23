@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CNNs on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/tags/cnns/</link>
+    <description>Recent content in CNNs on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 18 Nov 2018 12:00:00 -0500</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/tags/cnns/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Poisonous Plant Classifier using RESNET 34 fast.ai library</title>
+      <link>https://sparalic.github.io/projects/poisonous-plants-app/</link>
+      <pubDate>Sun, 18 Nov 2018 12:00:00 -0500</pubDate>
+      
+      <guid>https://sparalic.github.io/projects/poisonous-plants-app/</guid>
+      <description>Are you an avid outdoor explorer? Well this classifier can help you identify America&amp;rsquo;s top 10 poisonous plants, so that you can spend your time enjoying the outdoors.This web app can help you identify these pesky show stoppers by simply uploading an image of the any of these 10 culprits for confirmation.
+Update: I am working on porting this to a mobile app
+Here is an screen shot of the first iteration of the webapp:   </description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://sparalic.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://sparalic.github.io/about/</guid>
+      <description>My journey from Chemical Engineering to Data Science!   I am a rouge Chemical/Biomedical Engineer turned Data Scientist. I obtained my BS and MS in Chemical Engineering at New York University and my PhD. in Biomedical Engineering at The City College of New York. My thesis research focused on identifying cellular and molecular targets that can be utilized for the development of tools to prevent, diagnose, and treat heart related diseases such as arteriosclerosis.</description>
+    </item>
+    
+  </channel>
+</rss>

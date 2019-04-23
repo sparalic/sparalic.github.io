@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GRUs on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/tags/grus/</link>
+    <description>Recent content in GRUs on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 20 Apr 2019 10:58:08 -0400</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/tags/grus/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Predicting future medical diagnoses with RNNs using Fast AI API from scratch</title>
+      <link>https://sparalic.github.io/post/predicting-future-medical-diagnoses-with-rnns-using-fast-ai-api-from-scratch/</link>
+      <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/post/predicting-future-medical-diagnoses-with-rnns-using-fast-ai-api-from-scratch/</guid>
+      <description>by: Sparkle Russell-Puleri
+In the first part one of this tutorial we created a rough template of the Doctor AI: Predicting Clinical Events via Recurrent Neural Networks paper(2016) by Edward Choi et.al. In this tutorial we took it a step further using the Fast.ai buttom up approach. This code is fully functional and details on how the data was processed can be accessed in part one.
+Load Data
+About the data set</description>
+    </item>
+    
+    <item>
+      <title>Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units</title>
+      <link>https://sparalic.github.io/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/</link>
+      <pubDate>Mon, 11 Mar 2019 10:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/</guid>
+      <description>Background: Detailed review of Doctor AI: Predicting Clinical Events via Recurrent Neural Nets (Choi et.al 2016)
+by: Sparkle Russell-Puleri and Dorian Puleri
+Electronic medical records( EMRs), which is sometimes interchangeably called Electronic health records(EHRs) are primarily used to electronically-store patient health data digitally. While the use of these systems seem commonplace today, most notably due to the passing of the Health Information Technology for Economic and Clinical Health Act in 2014.</description>
+    </item>
+    
+    <item>
+      <title>Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function</title>
+      <link>https://sparalic.github.io/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/</link>
+      <pubDate>Tue, 05 Mar 2019 10:57:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/</guid>
+      <description>by: Sparkle Russell-Puleri and Dorian Puleri
+Medium:Medium Post
+In part one of this tutorial series, we demonstrated the matrix operations used to estimate the hidden states and outputs for the forward pass of a GRU. Based on our poor results, we obviously need to optimize our algorithm and test it on a test set to ensure generalizability. This is typically done using several steps/techniques. In this tutorial we will walkthrough what happens under the hood during optimization, specifically calculating the loss function and performing backpropagation through time to update the weights over several epochs.</description>
+    </item>
+    
+    <item>
+      <title>Gated Recurrent Units explained using matrices: Part 1</title>
+      <link>https://sparalic.github.io/post/gated-recurrent-units-explained-using-matrices-part-1/</link>
+      <pubDate>Sun, 24 Feb 2019 10:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/post/gated-recurrent-units-explained-using-matrices-part-1/</guid>
+      <description>by:Sparkle Russell-Puleri and Dorian Puleri
+Often times we get consumed with using Deep learning frameworks that perform all of the required operations needed to build our models. However, there is some value to first understanding some of the basic matrix operations used under the hood. In this tutorial we will walk you through the simple matrix operations needed to understand how a GRU works.
+A detailed notebook can be found at: Sparkle&amp;rsquo;s or Dorian&amp;rsquo;s Github page.</description>
+    </item>
+    
+    <item>
+      <title>Poisonous Plant Classifier using RESNET 34 fast.ai library</title>
+      <link>https://sparalic.github.io/projects/poisonous-plants-app/</link>
+      <pubDate>Sun, 18 Nov 2018 12:00:00 -0500</pubDate>
+      
+      <guid>https://sparalic.github.io/projects/poisonous-plants-app/</guid>
+      <description>Are you an avid outdoor explorer? Well this classifier can help you identify America&amp;rsquo;s top 10 poisonous plants, so that you can spend your time enjoying the outdoors.This web app can help you identify these pesky show stoppers by simply uploading an image of the any of these 10 culprits for confirmation.
+Update: I am working on porting this to a mobile app
+Here is an screen shot of the first iteration of the webapp:   </description>
+    </item>
+    
+  </channel>
+</rss>

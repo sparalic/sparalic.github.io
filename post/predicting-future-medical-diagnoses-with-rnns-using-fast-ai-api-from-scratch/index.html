@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Sparkle Russell-Puleri  | Predicting future medical diagnoses with RNNs using Fast AI API from scratch</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Predicting future medical diagnoses with RNNs using Fast AI API from scratch" />
+<meta property="og:description" content="Full pytorch implementation Doctor AI paper using Electronic Health Records" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sparalic.github.io/post/predicting-future-medical-diagnoses-with-rnns-using-fast-ai-api-from-scratch/" />
+<meta property="article:published_time" content="2019-04-20T10:58:08-04:00"/>
+<meta property="article:modified_time" content="2019-04-20T10:58:08-04:00"/>
+
+<meta itemprop="name" content="Predicting future medical diagnoses with RNNs using Fast AI API from scratch">
+<meta itemprop="description" content="Full pytorch implementation Doctor AI paper using Electronic Health Records">
+
+
+<meta itemprop="datePublished" content="2019-04-20T10:58:08-04:00" />
+<meta itemprop="dateModified" content="2019-04-20T10:58:08-04:00" />
+<meta itemprop="wordCount" content="1711">
+
+
+
+<meta itemprop="keywords" content="Healthcare,Electronic Health Records,GRUs,deep Learning,RNNs,deep learning,machine learning,fast.ai,Pytorch," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Predicting future medical diagnoses with RNNs using Fast AI API from scratch"/>
+<meta name="twitter:description" content="Full pytorch implementation Doctor AI paper using Electronic Health Records"/>
+<meta name="twitter:site" content="@sparklepuleri"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  
+  
+  <header class="cover bg-top" style="background-image: url('https://sparalic.github.io/images/healthai.jpeg');">
+    <div class="pb3-m pb6-l bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://sparalic.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Sparkle Russell-Puleri
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Blog page">
+              Blog
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/projects/" title="Projects page">
+              Projects
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/publications/" title="Publications page">
+              Publications
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Predicting future medical diagnoses with RNNs using Fast AI API from scratch</h1>
+          
+            <h2 class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Full pytorch implementation Doctor AI paper using Electronic Health Records
+            </h2>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        BLOG
+      </p>
+      <h1 class="f1 athelas mb1">Predicting future medical diagnoses with RNNs using Fast AI API from scratch</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-04-20T10:58:08-04:00">April 20, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>by: Sparkle Russell-Puleri</p>
+
+<p>In the first <a href="https://sparalic.github.io/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/">part one</a> of this tutorial we created a rough template of the <a href="https://arxiv.org/abs/1511.05942">Doctor AI: Predicting Clinical Events via Recurrent Neural Networks paper(2016)</a> by Edward Choi et.al. In this tutorial we took it a step further using the Fast.ai buttom up approach. This code is fully functional and details on how the data was processed can be accessed in <a href="https://sparalic.github.io/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/">part one</a>.</p>
+
+<p><strong>Load Data</strong><br></p>
+
+<p><strong><em>About the data set</em></strong><br>
+<div style="text-align: justify;">This study will utilize the <a href="https://mimic.physionet.org/">MIMIC III</a> electronic health record (EHR) dataset, which is comprised of over 58,000 hospital admissions for 38,645 adults and 7,875 neonates. This dataset is a collection of de-identified intensive care unit stays at the Beth Israel Deaconess Medical Center from June 2001- October 2012. A detailed walkthrough of the data pre-processing steps used can be found in <a href="https://sparalic.github.io/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/">part one</a>.</div></p>
+
+<p>The data pre-processed datasets will be loaded and split into a train, test and validation set at a <small><code>75%:15%:10%</code></small> ratio.</p>
+
+<script src="https://gist.github.com/sparalic/75aacd24ad8fbebc8ba64ff678278d39.js"></script>
+<center>Data loading function</center><br>
+
+<strong>Padding sequences: Addressing variable length sequences</strong>
+<div style="text-align: justify;">Using the artificial EHR data created in part one we pad the sequences to the length of the longest sequence in each mini-batch. To help explain this in greater depth let's take a look at the Artificial EHR data created in part one.</div><br><br>
+
+<strong>Detailed explanation using artificially generated EHR data</strong><br><br>
+<script src="https://gist.github.com/sparalic/40881c158519c09ec4d8c74b0289077a.js"></script>
+
+<div style="text-align: justify;">Here you can see that we have an array with two list, each list representing a unique patient. Now, within each list are a series of lists, each representing a unique visit. Finally, the encoded numericals represent the diagnosis codes assigned during each unique visit. It is key to note that given the uniqueness of each patient’s condition, there are variable length sequences for both the visits and diagnosis codes assigned. Because EHR data is longitudinal in nature and we are often interested in understand a patient's risk or progression over time. When using tabular data processing these nested time-dependent variable length sequences can get complicated quickly. Recall the following image from part one, detailing the mapping of each visit date to the diagnosis codes assigned during that visit.</div>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*poQbXNnKQlEPZq7q-ZWQFg.png" alt="img" />
+<center><strong><small>Patient Sequence Encodings</small></strong></center></p>
+
+<p><strong> Artificial EHR data sequences:</strong>
+<script src="https://gist.github.com/sparalic/71f4fe2465e890e43c74f1090ee858ad.js"></script></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*Fgegl5Xn5ZNBwsSv16hREw.png" alt="img" />
+<center><strong><small>Python Pickled List of List containing patient visits and encoded diagnosis codes</small></strong></center></p>
+
+<p><strong>Padding Function</strong><br>
+<script src="https://gist.github.com/sparalic/957795c43bb0005f02a5fa70eca0f5f3.js"></script>
+<center><strong><small>Padding function</small></strong></center><br></p>
+
+<p><strong>So what exactly are we padding with this nested list?</strong><br></p>
+
+<p>Let’s break down the padding function:<br></p>
+
+<p>Term 1: <small><code>lenghts = np.array([len(seq) for seq in seqs]) - 1</code></small><br></p>
+
+<div style="text-align: justify;">Here were are mysteriously subtracting 1 from the length, in the author's notes he mentioned that both the visit and label files must match as the algorithm takes care of the time lag for inference time.</div>
+
+<p>What does this mean? Given the structure of the data, the last visit in each patient’s record will be removed. As illustrated here:<br><br></p>
+
+<p><figure>
+    <img src="/images/Lengths.png"/> 
+</figure>
+
+<center><strong><small>Removing the last visit for inference</small></strong></center><br></p>
+
+<p><strong>Aside: Dealing with variable length sequences in a Character level RNN</strong><br>
+If this was a character level problem let’s say <code>[Sparkle,Dorian,Deep,Learning]</code>.The sequences are first arranged by length, in descending order and padded with zeros (red), where each letter represents a token. As shown here:<br></p>
+
+<p><figure>
+    <img src="/images/test_seq.png"/> 
+</figure>
+
+<center><strong><small>Variable length sequence padding</small></strong></center><br></p>
+
+<p><strong>EHR data</strong><br>
+<div style="text-align: justify;">However, for EHR data of this form given our current problem, instead of each encoded diagnosis code representing a unique token. In this case, each visit represents a token/sequence. So, using the same approach used with character level RNNs we first arrange each mini-batch by the patient visits in descending order. In this the patient 1 has the longest visit history with a total of two visits, while patient 2’s visits will be padded to the max length of 2, since it’s the longest sequence. As shown here:</div><br></p>
+
+<p><figure>
+    <img src="/images/padding1.png"/> 
+</figure>
+
+<center><strong><small>Padding EHR data</small></strong></center></p>
+
+<div style="text-align: justify;">Now, that we have taken care of the variable length problem, we can proceed to multi-one hot encode our sequences. This will result in the desired dimensions of S x B x I ( Sequence length, Batch size, Input dimensions/vocab).</div><br>
+
+<div style="text-align: justify;">Here we can easily see that the sequences will represent the patient with the longest visit history in each mini-batch, while all others will be padded to this length (red). Depending on the desired batch size, the batch size will represent how many patients sequences are feed in at each timestep. Finally, the inner list will be encoded to the length of the vocabulary, which in this case the number of unique diagnosis codes in the entire dataset.</div>
+
+<p><figure>
+    <img src="/images/minibatch.png"/> 
+</figure>
+
+<center><strong><small>Multi-one hot encoded sequences</small></strong></center><br></p>
+
+<p><strong>Labels</strong>
+<div style="text-align: justify;">To ensure that the labels are shifted over by one sequence, so that the algorithm can accurately predict the next time step. The author took care of this by ensuring that the training data excluded the last visit within each patient’s history, using this logic <strong><small><code>for xvec, subseq in zip(x[:, idx, :], seq[:-1]):</code></small></strong>, where we took all but the last visit within each patient&rsquo;s visit record <strong><small><code>seq[:-1]</code></small></strong>. For the labels, this meant that the sequences will start from the patients second visit, or in python&rsquo;s indexing style the first index <strong><small><code>for yvec, subseq in zip(y[:, idx, :], label[1:])</code></small></strong>, where the label <strong><small><code>label[1:]</code></small></strong>, is shifted by one.</div><br></p>
+
+<p><figure>
+    <img src="/images/labels.png" width="10"/> 
+</figure>
+
+<center><strong><small>Label time step lag</small></strong></center><br></p>
+
+<p><strong>What is masking and what does it do?</strong><br>
+<div style="text-align: justify;">Masking allows the algorithm to know where the true sequences are in one-hot encoded data, simply put ignore/filter out the padding values, which in our case are zeros. This allows us to easily handle variable length sequences in RNNs, which require fixed length inputs. How is it done? Remember the <code>lengths</code> variable? This variable stores the effective lengths of each patient&rsquo;s sequences in descending order (recall: after removing the last sequence in each record for inference, eg. patient 1 has 3 visits, but length will reflect only 2). The logic in the code <strong><small><code>mask[:lengths[idx], idx] = 1.</code></small></strong> then fills in our zeroed tensor along the rows with 1&rsquo;s to match the length of each patient sequence from largest to smallest.</div></p>
+
+<p>lenghts_artificial → array([2, 1])<br></p>
+
+<p>mask_artificial → tensor([[1., 1.],[1., 0.]])<br></p>
+
+<p><strong>Data Loaders and Sampler</strong><br>
+The <code>Dataset</code> class is an abstract class that represents the data in x and y pairs.</p>
+
+<script src="https://gist.github.com/sparalic/71a44d7ceb30f7aae1921c856a811e3f.js"></script>
+
+<p>The <code>Sampler</code> class randomly shuffles the order of the training set (validation set will not be randomized). Additionally, it keeps the exact amount of sequences needed created a full batch.</p>
+
+<script src="https://gist.github.com/sparalic/a976e8ab1af40b5961736a22948457c8.js"></script>
+
+<p>The <code>DataLoader</code> class combines the dataset and the data sampler which iterates over the dataset and grabs batches.</p>
+
+<script src="https://gist.github.com/sparalic/3eab3f4c4b0c25ed58853d4a24b42679.js"></script>
+
+<p><strong>Embedding Layer</strong><br>
+<div style="text-align: justify;">The <code>Custom_Embedding</code> class was used to project the high-dimensional multi-hot encoded vectors to a lower dimensional space prior to presenting the input data to the GRU. In this step the auther used two approaches:</div></p>
+
+<p>1.Random initialization , then learn the appropriate W(emb) weights during back-prop</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*28q4wxkSNNC2NqB6-dPptA.png" alt="img" /></p>
+
+<p>2.Pre-trained embedding initialized using the Skip-gram algorithm, then refine weights during back-prop</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*MVrc4Z8R9667Ll7Oyk55sQ.png" alt="img" /></p>
+
+<p>In this implementation of the paper we used the first approach. Therefore, the <code>Custom Embedding</code> class was created to created apply a tanh activation on the embedding layer.</p>
+
+<script src="https://gist.github.com/sparalic/8f62498cab8df9443f2d9521d5c0b4c3.js"></script>
+
+<p><strong>Dropout Layer</strong>
+<div style="text-align: justify;">In this paper the author used the naive application of dropout that was first introduced by <a href="http://jmlr.org/papers/volume15/srivastava14a.old/srivastava14a.pdf">Srivastava (2014)</a>. While this method works well, it impacts the RNNs ability to retain long term dependencies, because we are not maintaining the same mask across each timestep. Why is this important? It’s simple, if we randomly sample a new mask at each time step, it perturbs our RNNs connections making it difficult for the network to determine what information might be relevant in the long term. In this approach, I tested the a technique proposed by Gal and Ghahramani (2016) and further developed by <a href="https://arxiv.org/pdf/1708.02182.pdf">Merity (2017)</a> for LSTMs. Here, they proposed overcoming the aforementioned problem with associated random sampling, by using the same dropout mask across multiple time steps in LSTMs. Here, I will applied the same approach on a GRU between each layer (two layers).</div></p>
+
+<script src="https://gist.github.com/sparalic/e1c56da2f8f5a0f999732512456a29a3.js"></script>
+
+<p><strong>Doctor AI: Predicting Clinical Events via Recurrent Neural Networks</strong>
+<div style="text-align: justify;">Despite the popularity and preference given to LSTMs. This paper used a GRU architecture, for its simplicity and ability to get similar performance as LSTMs. The dataset used in this paper contained <code>263, 706 patients</code>, whereas our dataset (MIMIC III) contained a total of <code>7537 patients</code>. However, the author demonstrated transfer learning can be a viable option in cases where one hospital system lack the large scale datasets need to train deep learning models like Dr. AI. Using the following architecture, my interest lies in the prediction of the patient&rsquo;s future diagnosis codes. However, one can easily extrapolate the algorithm to predict both diagnoses and duration between visits.</div></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*NAT-F4V9OkG8e6uPpaoM1A.png" alt="img" />
+<center><strong><small>Model Architecture</small></strong></center></p>
+
+<script src="https://gist.github.com/sparalic/d6126a418bb94b28adec640a41b35528.js"></script>
+
+<p><strong>GRU Layer</strong><br>
+This class uses the <code>EHR_GRU</code> cell class and allows the iteration over the desired number of layers.</p>
+
+<script src="https://gist.github.com/sparalic/f2e0e0cdd5c2d3d40fd60a66597d8e55.js"></script>
+
+<p><strong>Loss Function</strong><br>
+The loss function used to assess model perform, contained a combination of the cross entropy. The prediction loss for each mini-batch was normalized to the sequence length. Finally, L2-norm regularization was applied to all of the weight matrices.</p>
+
+<script src="https://gist.github.com/sparalic/8a09f94c8fbb93519436d30352b9c1b7.js"></script>
+
+<p><strong>Model Parameters</strong><br>
+The parameters used here were selected from those used in the Dr AI paper. The major difference between this approach and what I present here, was my use of the more updated drop out approach for RNNs.</p>
+
+<p>numClass = 4894<br>
+inputDimSize = 4894<br>
+embSize = 200<br>
+hiddenDimSize = 200<br>
+batchSize = 100 numLayers = 2<br></p>
+
+<p><strong>Load Data</strong><br>
+It’s key to note that you want to pass in the same file for the sequences and labels into the <code>load_data</code> function, as the model will take care of the adjusting the time steps for prediction internally.</p>
+
+<script src="https://gist.github.com/sparalic/6b11576cf8ff4dae15ef98b9665a332d.js"></script>
+
+<p><strong>Training and validation loop</strong></p>
+
+<script src="https://gist.github.com/sparalic/4a7486ee28de9baa711c5236026a123c.js"></script>
+
+<p><strong>Comparison of my implementation to the paper’s algorithm:</strong>
+<div style="text-align: justify;">I ran the same sequences on the paper’s algorithm, which is written in theano and python 2.7 and here you can see that the best cross entropy score after 10 epochs is about 86.79 vs. my 107. While, I am not performing better with some more hyperparameter tuning and optimization the algorithm can definitely perform better.</div></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*nVTENwWAKdkN844Z5HFgzQ.png" alt="img" />
+<center><strong><small>Dr. Algorithm results for comparison</small></strong></center></p>
+
+<p><strong>Observations:</strong>
+<div style="text-align: justify;">As you can see our training and validation losses are about the same, with such a small subset of the data used in the actual paper. It might be difficult to get better performance without overfitting. However, the intent of this tutorial was to provide a detailed walkthrough of how one can use EHR data to drive insights!</div></p>
+
+<p><strong>Full Script</strong>
+<a href="https://github.com/sparalic/Predicting-future-medical-diagnoses-with-RNNs-using-Fast-AI-API-from-scratch">Github</a></p>
+
+<p><strong>Next Steps:</strong>
+Add Callbacks using Fast.AI’s callback approach to track in training stats
+Play around with different initialization approaches</p>
+
+<p><strong>Acknowledgements:</strong>
+Fast.ai (Rachel Thomas, Jeremey Howard, and the amazing fast.ai community)
+Dorian Puleri</p>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/healthcare" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Healthcare</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/electronic-health-records" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Electronic Health Records</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/grus" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">GRUs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deep Learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/rnns" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">RNNs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deep learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/machine-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">machine learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/fast.ai" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">fast.ai</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/pytorch" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Pytorch</a>
+   </li>
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/">Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/">Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/gated-recurrent-units-explained-using-matrices-part-1/">Gated Recurrent Units explained using matrices: Part 1</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/projects/poisonous-plants-app/">Poisonous Plant Classifier using RESNET 34 fast.ai library</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/predicting-breast-cancer/">Predicting Breast Cancer</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/diagnostic-model-for-predicting-cardiovascular-disease-risk/">Diagnostic model for predicting Cardiovascular Disease Risk</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://sparalic.github.io/" >
+    &copy; 2019 Sparkle Russell-Puleri
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

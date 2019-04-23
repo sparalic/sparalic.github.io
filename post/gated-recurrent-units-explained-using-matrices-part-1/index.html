@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Sparkle Russell-Puleri  | Gated Recurrent Units explained using matrices: Part 1</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Gated Recurrent Units explained using matrices: Part 1" />
+<meta property="og:description" content="Demystifying the math behind GRUs" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sparalic.github.io/post/gated-recurrent-units-explained-using-matrices-part-1/" />
+<meta property="article:published_time" content="2019-02-24T10:58:08-04:00"/>
+<meta property="article:modified_time" content="2019-02-24T10:58:08-04:00"/>
+
+<meta itemprop="name" content="Gated Recurrent Units explained using matrices: Part 1">
+<meta itemprop="description" content="Demystifying the math behind GRUs">
+
+
+<meta itemprop="datePublished" content="2019-02-24T10:58:08-04:00" />
+<meta itemprop="dateModified" content="2019-02-24T10:58:08-04:00" />
+<meta itemprop="wordCount" content="2419">
+
+
+
+<meta itemprop="keywords" content="GRUs,Deep Learning,RNNs,machine learning," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Gated Recurrent Units explained using matrices: Part 1"/>
+<meta name="twitter:description" content="Demystifying the math behind GRUs"/>
+<meta name="twitter:site" content="@sparklepuleri"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  
+  
+  <header class="cover bg-top" style="background-image: url('https://sparalic.github.io/images/gruthumb.png');">
+    <div class="pb3-m pb6-l bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://sparalic.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Sparkle Russell-Puleri
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Blog page">
+              Blog
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/projects/" title="Projects page">
+              Projects
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/publications/" title="Publications page">
+              Publications
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Gated Recurrent Units explained using matrices: Part 1</h1>
+          
+            <h2 class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Demystifying the math behind GRUs
+            </h2>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        BLOG
+      </p>
+      <h1 class="f1 athelas mb1">Gated Recurrent Units explained using matrices: Part 1</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-02-24T10:58:08-04:00">February 24, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>by:<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/">Sparkle Russell-Puleri</a> and <a href="https://www.linkedin.com/in/dorian-puleri-ph-d-25114511/">Dorian Puleri</a><br></p>
+
+<p>Often times we get consumed with using Deep learning frameworks that perform all of the required operations needed to build our models. However, there is some value to first understanding some of the basic matrix operations used under the hood. In this tutorial we will walk you through the simple matrix operations needed to understand how a GRU works.</p>
+
+<hr />
+
+<p>A detailed notebook can be found at: <a href="https://github.com/sparalic/GRUs-internals-with-matrices">Sparkle&rsquo;s</a> or <a href="https://github.com/DPuleriNY/GRUs-with-matrices">Dorian&rsquo;s</a> Github page.</p>
+
+<p>Medium: <a href="https://towardsdatascience.com/gate-recurrent-units-explained-using-matrices-part-1-3c781469fc18">Medium post</a></p>
+
+<p><strong> What is a Gated Recurrent Unit (GRU)?</strong><br>
+Gated Recurrent Unit (pictured below), is a type of Recurrent Neural Network that addresses the issue of long term dependencies which can lead to vanishing gradients larger vanilla RNN networks experience. GRUs address this issue by storing “memory” from the previous time point to help inform the network for future predictions. At first glance, one may think that this diagram is quite complex, but it is quite the contrary. The intent of this tutorial is to debunk the difficulty of GRUs using Linear Algebra fundamentals.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*smlLUdHdARMBCW7EQAUttw.png" alt="img" /></p>
+
+<p>The governing equations for GRUs are:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*lpe2VeZxdubIpwd8ZEVPIQ.png" alt="img" />Governing equations of a GRU</p>
+
+<p>where z and r represent the update and reset gates respectively. While h_tilde and h represent the intermediate memory and output respectively.</p>
+
+<p><strong>GRUs vs Longterm Short Term Memory (LSTM) RNNs</strong><br>
+The main differences between GRUs and the popular <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">LSTMs</a> (nicely explained by <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Chris Olah</a>) are the number of gates and maintenance of cell states. Unlike GRUs, LSTMs have 3 gates (input, forget, output) and maintains an internal memory cell state, which makes it more flexible, but less efficient memory and time wise. However, since both of these networks are great at addressing the vanishing gradient problem required for efficiently tracking long term dependencies. Choosing between them is usually done using the following rule of thumb. When deciding between these two, it is recommended that you first train a LSTM, since it has more parameters and is a bit more flexible, followed by a GRU, and if there are no sizable differences between the performance of the two, then use the much simpler and efficient GRU.</p>
+
+<hr />
+
+<p><strong> Approach</strong><br>
+To further illustrate the elegance of RNNs, we are going to walk you through the basics of linear algebra needed to understand the inner workings of a GRU. To do this we will use a small string of letters to illustrate exactly how the matrix calculations we take for granted, using pre-packaged wrapper functions, created many of the common DL frameworks. The point of this tutorial is not to set us back, but to help drive a deeper understanding of how RNNs work using Linear Algebra.</p>
+
+<p>Sample using the following sample string as our input data:</p>
+
+<p>text = &lsquo;MathMathMathMathMath&rsquo;</p>
+
+<p>However, algorithms are essentially mathematical equations of some sort, therefore our original text will have to be represented in numerical form before presenting it to the GRU layers. This is done in the following pre-processing step below.</p>
+
+<hr />
+
+<p><strong> Data Pre-processing</strong><br>
+In the first step a dictionary of all of the unique characters is created to map each letter to a unique integer:</p>
+
+<p>Character dictionary : {‘h’: 0, ‘a’: 1, ‘t’: 2, ‘M’: 3}</p>
+
+<p>Our encoded input now becomes:
+MathMath = [3, 1, 2, 0, 3, 1, 2, 0]</p>
+
+<script type="application/javascript" src="//gist.github.com/sparalic/77f9b0df992d84515be06591427f20cb.js"></script>
+
+<p>Let’s assume we want the following parameters:
+1. Batch size (B) = 2 
+2. Sequence length (S) = 3
+3. Vocabulary (V) = 4
+4. Output (O) = 4</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*z5bPNW_2H37LomSEDDoYaA.png" alt="img" /></p>
+
+<p><strong>So what is the time series?</strong>
+If you do a basic search for an RNN the image below is typically what you will find. This image is a generalized view of what happens in unfolded form. However, what does the x<em>(t-1), x</em>(t) and x_(t+1) (highlighted in red) mean in terms of our batches?</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*vy7vsk4c0RJZqDlzqL_RjQ.png" alt="img" />Vanilla RNN architecture</p>
+
+<p>In the case of our mini-batch, the time series represents each sequence with information flowing from left to right as shown in the figure below.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*sbmFYQG7vtO_qK9XWZmNyQ.png" alt="img" />Schematic of data flow for each one-hot encoded batch</p>
+
+<p><strong> Dimensions of our dataset</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*6ORf-jUlU2tfR_G_LWiHmw.png" alt="img" />Batch anatomy</p>
+
+<p><strong>Step 1: Illustrated in code</strong></p>
+
+<script type="application/javascript" src="//gist.github.com/sparalic/6b1ae9d1f9406f0fb9d1ab9ee56558b3.js"></script>
+
+<p>After reshaping, if you check the shape of X you would find that you get a rank 3 tensor of shape: 3 x 3 x 2 x 4. What does this mean?</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*m-DJs-oHAyARG1V5KqdTOQ.png" alt="img" />Dimensions of the dataset</p>
+
+<p><strong> What will be demonstrated?</strong><br>
+The data is now ready for modeling. However, we want to highlight the flow of this tutorial. We will demonstrate the matrix operations performed for the first sequence (highlighted in red) within batch 1 (shown below). The idea is to understand how the information from the first sequence gets passed to the second sequence and so on.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*6Bz8RzixRbDEBAyefQUwaQ.png" alt="img" />Sequence used for walk through (Sequence 1 batch 1)</p>
+
+<p>To do this we need to first recall how these batches are fed into the algorithm.</p>
+
+<p><strong> What will be demonstrated?</strong><br>
+The data is now ready for modeling. However, we want to highlight the flow of this tutorial. We will demonstrate the matrix operations performed for the first sequence (highlighted in red) within batch 1 (shown below). The idea is to understand how the information from the first sequence gets passed to the second sequence and so on.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*6Bz8RzixRbDEBAyefQUwaQ.png" alt="img" />Sequence used for walk through (Sequence 1 batch 1)</p>
+
+<p>To do this we need to first recall how these batches are fed into the algorithm.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*FfJofbmTdJrCuba0UwVF5w.png" alt="img" />Schematic of batch one being ingested into the RNN</p>
+
+<p>More specifically, we will walk through all of the matrix operations done in a GRU cell for sequence 1 and the resulting outputs y_(t-1) and h_t will be calculated in the process (shown below):</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*QEErOH5S8fs23SJ3D7TmdA.png" alt="img" />First time step of of batch 1</p>
+
+<p><strong> Step 2: Define our weights matrices and bias vectors</strong><br>
+In this step we will walk you through the matrix operations used to calculate the z gate, since the calculations are exactly the same for the remaining three equations. To help drive this point home we are going to walk through the dot product of the reset gate z by breaking the inner equation down into three sections and finally we will apply the sigmoid activation function to the output to squish the values between 0 and 1:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*Jmkz2f-TbHk8sxuFY1c6ag.png" alt="img" />Reset gate</p>
+
+<p>But first let’s define the network parameters:</p>
+
+<script type="application/javascript" src="//gist.github.com/sparalic/0fe816ad24034923b754449fb46007c7.js"></script>
+
+<p><strong> What is a hidden size?</strong><br>
+The hidden size defined above, is the number of learned parameters or simply put, the networks memory. This parameter is usually defined by the user depending on the problem at hand as using more units can make it more likely to over fit the training data. In our case we chose a hidden size of 2 to make this easier to illustrate. These values are often initialized to random numbers from the normal distribution, which are trainable and updated as we perform back-propagation.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*7fTZ00KiaDR6G6Jeqv5a6A.png" alt="img" />Anatomy of the Weight matrix</p>
+
+<p><strong> Dimensions of our weights</strong><br>
+We will walkthrough all of the matrix operations using the first batch, as it’s exactly the same process for all other batches. However, before we begin any of the above matrix operations, let’s discuss an important concept called broadcasting. If we look at the shapes of batch 1 (3 x 2 x 4) and the shape of Wz (4 x 2), the first thing that may come to mind is, how would we perform element-wise matrix multiplication on these two tensors with different shapes?</p>
+
+<p>The answer is we use a process called “Broadcasting”. Broadcasting is used to make the shapes of the these two tensors compatible, such that we can perform our element-wise matrix operations. This means that Wz will get broadcasted to a non-matrix dimension, which in our case is our sequence length of 3. This then means that all of the other terms in the update equations z will also get broadcasted. Therefore, our final equation will look like this:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*woo19rEGH6U3wQ4IlO1pcA.png" alt="img" />Equation for z with weight matrices broadcasted</p>
+
+<p>Before we perform the actual matrix arithmetic let’s visualize what sequence 1 from batch one looks like:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*JFNb6tluo-JGkyZufMGBuQ.png" alt="img" />Illustration of matrix operations and dimensions for the first sequence in batch 1</p>
+
+<p><strong> The update gate: z </strong><br>
+The update gate determines how useful past information is to the current state. Here, the use of the sigmoid function results in update gate values between 0 and 1. Therefore, the closer this value is to 1 the more we incorporate past information, while values closer to 0 would mean that only new information is kept.</p>
+
+<p><strong>Now let’s get to the math…</strong>First term: Note that when these two matrices are multiplied using the dot product, we are multiplying each row by each column. Here, each row (highlighted in yellow) of the first matrix ( x_t) gets multiplied element-wise by each column (highlighted in blue) of the second matrix (Wz).</p>
+
+<p>Term 1: Weights applied to the inputs</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*9Ss6VEzwmP1ei8RYivKlzw.png" alt="img" />Dot product of the first term in the update gate equation</p>
+
+<p>Term 2: Hidden Weights</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*weIcsxqGJnaxsoNFaZewbg.png" alt="img" />Dot product of the second term in the update gate equation</p>
+
+<p>Term 3: Bias Vector</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*GYGO7dE1A3l9DkmudQkd5g.png" alt="img" />Bias vector</p>
+
+<p><strong> Putting it all together: z_inner</strong><br></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*qtMvjDndGbwEqna-T23jZg.png" alt="img" />Inner linear equation of the reset gate</p>
+
+<p>The values in the resulting matrix is then squished between 0 and 1 using the sigmoid activation function:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*kAa09xCse5dowrXRBwpgpg.png" alt="img" />Sigmoid equation</p>
+
+<p><strong> The reset gate: r</strong><br></p>
+
+<p>Reset gate allows the model to ignore past information that might be irrelevant in future time-steps. Over each batch, the reset gate will re-evaluate the combined performance of prior and new inputs and reset as needed for the new inputs. Again because of the sigmoid activation function, values closer to 0 would mean that we would keep ignore the previous hidden state, and the opposite is true for values closer to 1.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*pbLxrzrelcELY_Bq1mzxkg.png" alt="img" />Reset gate</p>
+
+<p><strong> Intermediate Memory: h_tilde</strong><br></p>
+
+<p>The intermediate memory unit or candidate hidden state combines the information from the previous hidden state with the input. Since the matrix operations required for the first and third terms are the same as what we did in z, we will only present the results.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*cUPqBMYcui6eIN72zy7fxQ.png" alt="img" />Intermediate/candidate hidden state</p>
+
+<p>Second term:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2400/1*YzTUU0OyG2kKRu7iRMicqQ.png" alt="img" />Second term matrix operations</p>
+
+<p><strong> Putting it all together: h_tilde</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*869TP2blPO_-3XUKcV-LGQ.png" alt="img" />Inner linear equation calculation</p>
+
+<p>The values in the resulting matrix is then squished between 0 and 1 using the tanh activation function:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*u_WElHRCjG6jMDdTBK3zNw.png" alt="img" />Tanh activation function</p>
+
+<p>Finally:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/2400/1*5utBb4Ejs5QT8ct1qz2DhQ.png" alt="img" />Candidate hidden state output</p>
+
+<p><strong> Output hidden layer at time step t: h_(t-1)</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*TGkQnEuZPXB1ZcEg_HKDig.png" alt="img" />Hidden state for the first time step</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*2AGyiQE22of4KXhid3wRvA.png" alt="img" />Resulting matrix for hidden state at time step 1</p>
+
+<p><strong> How does the second sequence in batch 1 (time step x_t) information from this hidden state?</strong></p>
+
+<p>Recall, that h_(t-n) is first initialized to zeros (used in this tutorial) or random noise to begin the training after which the network would learn and adapt. But after the first iteration, the new hidden state h_t will now be used as our new hidden state and the calculations above are repeated for sequence 2 at time step (x_t). The image below demonstrates how this is done.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*ehVF89Rz6KQZUIpc_yzbSQ.png" alt="img" />Illustration of the new hidden state calculated in the above matrix operations</p>
+
+<p>This new hidden state h<em>(t-1) will not be used to calculate the output ( y</em>(t+1)) and hidden state h_(t)of the second time step in the batch and so on.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*XjZQ1Gk2HrZVWpPpl7PIUg.png" alt="img" />Passing of hidden states from sequence1 to sequence 2</p>
+
+<p>Below we demonstrate how the new hidden state h<em>(t-1) is used to calculate subsequent hidden states. This is typically done using a loop. This loop iterates over all of the elements within each the given batch to calculate both h</em>(t-1).</p>
+
+<p><strong> Code Implementation: Batch 1 outputs: h(t−1), h(t) and h(t+1)</strong></p>
+
+<script type="application/javascript" src="//gist.github.com/sparalic/943f5101f99cde0a035256b824625d1e.js"></script>
+
+<p><strong> What will be the hidden state for the second batch?</strong></p>
+
+<p>If you are a visual person, it can be seen as a series the output at h_(t+1), will then be feed to the next batch and the whole process begins again.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*JG7_O3CQ2xFU6cgbZ5ti5Q.png" alt="img" />Passing of hidden states across batches</p>
+
+<p><strong> Step 3: Calculate the out predictions for each time step</strong></p>
+
+<p>To obtain our predictions for each time step we first have to transform our output using a linear layer. Recall the dimensions of columns in the hidden states h_(t+n) is essentially the dimension of the network size/hidden size. However, we have 4 unique inputs and we are expecting our outputs to also have a size of 4. Therefore, we use what is called a dense layer or fully connect layer to transform our outputs back to the desired dimensions. This fully connected layer is then passed into an activation function (Softmax for this tutorial), depending on the desired output.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*CH98GHTUSY0tZ-HSeItwQQ.png" alt="img" />Fully connected/Linear layer</p>
+
+<p>Finally, we apply the Softmax activation function to normalize our outputs into a probability distribution, which sums up to 1. The Softmax function:</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*ZkDV0gqEimWUyxox1vSD3Q.png" alt="img" />Softmax equation</p>
+
+<p>Depending on the textbook you may see different flavors of the softmax, particularly using the softmax max trick which subtracts the maximum value of the entire dataset to prevent exploding values for large y_lineary/fully_connected. In our case this means that our max value of 0.9021 will first be subtracted from y_linear prior to applying it the the softmax equation.</p>
+
+<p>Let’s break this down, please note that we cannot subset the sequences as we did earlier because the summation requires all elements in the entire batch.</p>
+
+<ol>
+<li>Subtract the max value of the entire dataset from all of the elements in the fully connected layer:</li>
+</ol>
+
+<p><img src="https://cdn-images-1.medium.com/max/2400/1*vzrW_yc2M5NsW2LaCrOcnw.png" alt="img" />Applying the Max trick for Softmax equation</p>
+
+<ol>
+<li>Find the sum of all of the elements within the matrix of exponents</li>
+</ol>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*iwk8bL37avBamuvDsfBJpQ.png" alt="img" />Sum of the exponents for each row</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*bABbwn6mD9g7hS4P0IflpQ.png" alt="img" />Final Softmax output for the first sequence in batch 1</p>
+
+<p><strong> Finally, training our network (forward only)</strong><br>
+Here we train the network on the input batches by running each batch through the network several times, which is called an epoch. This allows the network to learn the sequences many times. This is then followed with a loss calculation and back-propagation to minimize our loss. In this section we will implement all of the code snippets showed above in one pass. Given the the small input size we will only demonstrate the forward pass, as the calculation of the loss function and back-propagation will be detailed in a subsequent tutorial.</p>
+
+<script type="application/javascript" src="//gist.github.com/sparalic/5c872fa0bf406f75a1e3ccd18e00ef17.js"></script>
+
+<p>This function will feed a primer of letters to the network help create an initial states and avoid making random guesses. As shown below the first couple of strings generated are a bit erratic, but after a few passes it seems to get at least the next two characters correct. However, given the small vocabulary size this network is most likely overfitting.</p>
+
+<script type="application/javascript" src="//gist.github.com/sparalic/c91c89f5bfcf2b77d075e00562975870.js"></script>
+
+<p><strong> Final Words</strong></p>
+
+<p>The intent of this tutorial was to provide a walkthrough of the inner working of GRUs using demonstrating how simple matrix operations when combined can make such a powerful algorithm.</p>
+
+<p><strong> References:</strong></p>
+
+<ol>
+<li>The Unreasonable Effectiveness of Recurrent Neural Networks</li>
+<li>Udacity Deep Learning with Pytorch</li>
+<li>fastai Deep Learning for Coders</li>
+<li>Deep Learning — The Straight Dope</li>
+<li>Deep Learning Book</li>
+<li><a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTMs</a></li>
+</ol>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/grus" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">GRUs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Deep Learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/rnns" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">RNNs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/machine-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">machine learning</a>
+   </li>
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/projects/poisonous-plants-app/">Poisonous Plant Classifier using RESNET 34 fast.ai library</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/predicting-breast-cancer/">Predicting Breast Cancer</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/diagnostic-model-for-predicting-cardiovascular-disease-risk/">Diagnostic model for predicting Cardiovascular Disease Risk</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://sparalic.github.io/" >
+    &copy; 2019 Sparkle Russell-Puleri
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

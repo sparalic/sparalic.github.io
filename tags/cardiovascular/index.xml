@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cardiovascular on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/tags/cardiovascular/</link>
+    <description>Recent content in Cardiovascular on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Apr 2017 12:00:00 -0500</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/tags/cardiovascular/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Diagnostic model for predicting Cardiovascular Disease Risk</title>
+      <link>https://sparalic.github.io/post/diagnostic-model-for-predicting-cardiovascular-disease-risk/</link>
+      <pubDate>Tue, 04 Apr 2017 12:00:00 -0500</pubDate>
+      
+      <guid>https://sparalic.github.io/post/diagnostic-model-for-predicting-cardiovascular-disease-risk/</guid>
+      <description>By: Sparkle Russell-Puleri, Ph.D.
+Project Goal: The objective of this project is to develop computational algorithm(Github code) that can accurately detect cardiovascular related diseases. The dataset used in this project was obtained from the publically available UCI repository heart disease dataset. This dataset has been considered the benchmark dataset in the computational cardiovascular space. The features used in the development of this model are considered medically relevant attributes(Age,sex,cp,rest bps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal,class) as they significantly contribute to the progression of cardiovascular disease.</description>
+    </item>
+    
+  </channel>
+</rss>

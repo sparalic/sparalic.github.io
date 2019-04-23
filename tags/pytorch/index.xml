@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pytorch on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/tags/pytorch/</link>
+    <description>Recent content in Pytorch on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 20 Apr 2019 10:58:08 -0400</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/tags/pytorch/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Predicting future medical diagnoses with RNNs using Fast AI API from scratch</title>
+      <link>https://sparalic.github.io/post/predicting-future-medical-diagnoses-with-rnns-using-fast-ai-api-from-scratch/</link>
+      <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/post/predicting-future-medical-diagnoses-with-rnns-using-fast-ai-api-from-scratch/</guid>
+      <description>by: Sparkle Russell-Puleri
+In the first part one of this tutorial we created a rough template of the Doctor AI: Predicting Clinical Events via Recurrent Neural Networks paper(2016) by Edward Choi et.al. In this tutorial we took it a step further using the Fast.ai buttom up approach. This code is fully functional and details on how the data was processed can be accessed in part one.
+Load Data
+About the data set</description>
+    </item>
+    
+  </channel>
+</rss>

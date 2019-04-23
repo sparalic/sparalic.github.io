@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>cross entropy on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/tags/cross-entropy/</link>
+    <description>Recent content in cross entropy on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 Mar 2019 10:57:08 -0400</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/tags/cross-entropy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function</title>
+      <link>https://sparalic.github.io/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/</link>
+      <pubDate>Tue, 05 Mar 2019 10:57:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/</guid>
+      <description>by: Sparkle Russell-Puleri and Dorian Puleri
+Medium:Medium Post
+In part one of this tutorial series, we demonstrated the matrix operations used to estimate the hidden states and outputs for the forward pass of a GRU. Based on our poor results, we obviously need to optimize our algorithm and test it on a test set to ensure generalizability. This is typically done using several steps/techniques. In this tutorial we will walkthrough what happens under the hood during optimization, specifically calculating the loss function and performing backpropagation through time to update the weights over several epochs.</description>
+    </item>
+    
+  </channel>
+</rss>

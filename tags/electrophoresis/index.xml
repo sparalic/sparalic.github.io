@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Electrophoresis on Sparkle Russell-Puleri</title>
+    <link>https://sparalic.github.io/tags/electrophoresis/</link>
+    <description>Recent content in Electrophoresis on Sparkle Russell-Puleri</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 26 Oct 2011 10:58:08 -0400</lastBuildDate>
+    
+	<atom:link href="https://sparalic.github.io/tags/electrophoresis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Improved agarose gel electrophoresis method and molecular mass calculation for high molecular mass hyaluronan.</title>
+      <link>https://sparalic.github.io/publications/improved-agarose-gel-electrophoresis-method-and-molecular-mass-calculation-for-high-molecular-mass-hyaluronan./</link>
+      <pubDate>Wed, 26 Oct 2011 10:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/publications/improved-agarose-gel-electrophoresis-method-and-molecular-mass-calculation-for-high-molecular-mass-hyaluronan./</guid>
+      <description>The molecular mass of the polysaccharide hyaluronan (HA) is an important determinant of its biological activity and physicochemical properties. One method currently used for the analysis of the molecular mass distribution of an HA sample is gel electrophoresis. In the current work, an improved agarose gel electrophoresis method for analysis of high molecular mass HA is presented and validated. HA mobility in 0.5% agarose minigels was found to be linearly related to the logarithm of molecular mass in the range from approximately 200 to 6000 kDa.</description>
+    </item>
+    
+  </channel>
+</rss>

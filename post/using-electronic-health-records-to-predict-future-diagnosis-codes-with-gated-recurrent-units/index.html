@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Sparkle Russell-Puleri  | Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units" />
+<meta property="og:description" content="Background: Detailed review of Doctor AI: Predicting Clinical Events via Recurrent Neural Nets (Choi et.al 2016)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sparalic.github.io/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/" />
+<meta property="article:published_time" content="2019-03-11T10:58:08-04:00"/>
+<meta property="article:modified_time" content="2019-03-11T10:58:08-04:00"/>
+
+<meta itemprop="name" content="Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units">
+<meta itemprop="description" content="Background: Detailed review of Doctor AI: Predicting Clinical Events via Recurrent Neural Nets (Choi et.al 2016)">
+
+
+<meta itemprop="datePublished" content="2019-03-11T10:58:08-04:00" />
+<meta itemprop="dateModified" content="2019-03-11T10:58:08-04:00" />
+<meta itemprop="wordCount" content="1571">
+
+
+
+<meta itemprop="keywords" content="Healthcare,Electronic Health Records,GRUs,deep Learning,RNNs,deep learning,machine learning," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units"/>
+<meta name="twitter:description" content="Background: Detailed review of Doctor AI: Predicting Clinical Events via Recurrent Neural Nets (Choi et.al 2016)"/>
+<meta name="twitter:site" content="@sparklepuleri"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  
+  
+  <header class="cover bg-top" style="background-image: url('https://sparalic.github.io/images/gru2.png');">
+    <div class="pb3-m pb6-l bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://sparalic.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Sparkle Russell-Puleri
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Blog page">
+              Blog
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/projects/" title="Projects page">
+              Projects
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/publications/" title="Publications page">
+              Publications
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units</h1>
+          
+            <h2 class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Background: Detailed review of Doctor AI: Predicting Clinical Events via Recurrent Neural Nets (Choi et.al 2016)
+            </h2>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        BLOG
+      </p>
+      <h1 class="f1 athelas mb1">Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-03-11T10:58:08-04:00">March 11, 2019</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><strong>Background: Detailed review of Doctor AI: Predicting Clinical Events via Recurrent Neural Nets (Choi et.al 2016)</strong></p>
+
+<p>by: <a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643">Sparkle Russell-Puleri</a> and <a href="https://www.linkedin.com/in/dorian-puleri-ph-d-25114511">Dorian Puleri</a></p>
+
+<p>Electronic medical records( EMRs), which is sometimes interchangeably called Electronic health records(EHRs) are primarily used to electronically-store patient health data digitally. While the use of these systems seem commonplace today, most notably due to the passing of the Health Information Technology for Economic and Clinical Health Act in 2014. There adaption implementation into healthcare facilities across the US was very slow. Nonetheless, EHR/EMR systems now posses a wealth of longitudinal patient data which can move us closer to developing patient-centered personalized healthcare solutions. That being said, EHR data can be very messy and sparse. Despite these challenges, if harnessed properly EHR data can provide real world data insights on patient journeys, treatment patterns, predict a patients next diagnosis code or risk of readmission and mortality etc.</p>
+
+<p>As of 2018, it has been reported that healthcare data alone accounts for about 30% of the world’s data production. As a result, there is no secret that many companies and investors are looking to healthcare as the next big investment. However, in order to deliver real solutions on the patient level, we need to understand how to harness and process the wealth of data that we have at hand. To this end, this tutorial will focus on breaking down how to process EHR data for use in AI algorithms. The hope is that with this insight using simulated data, we can get more data scientist and enthusiast on board to democratizing healthcare data and inch closer to making EHR data actionable on the patient level.</p>
+
+<p>For the purpose of this three part tutorial, we generated some artificial EHR data to demonstrate how EHR data should be processed for use in sequence models. Please note that this data has no clinical relevance and was just created for training purposes only.</p>
+
+<p><strong>This tutorial is broken down into the following sections:</strong></p>
+
+<p><strong>Part 1:</strong> Generating artificial EHR data</p>
+
+<p><strong>Part 2:</strong> Pre-processing artificially generated EHR data</p>
+
+<p><strong>Part 3:</strong> Doctor AI Pytorch minimal implementation</p>
+
+<p>If you need a quick review on the inner workings of GRUs , see the <a href="https://medium.com/@sparklerussell/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function-7e7147b7f2ae"><strong>Gated Recurrent Units Review</strong></a>.</p>
+
+<p>Github code: <a href="https://github.com/sparalic/Electronic-Health-Records-GRUs">https://github.com/sparalic/Electronic-Health-Records-GRUs</a></p>
+
+<hr />
+
+<p><strong>Part 1: Generating artificial Electronic Health Records(EHR) data</strong></p>
+
+<p><strong>Patient Admission Table</strong></p>
+
+<p>This table contains information on the patient admission history and times. The features generated were:</p>
+
+<ol>
+<li><code>PatientID</code>- Unique identifier that stay with the patient permanently</li>
+<li><code>Admission ID</code> - Specific to each visit</li>
+<li><code>AdmissionStartDate</code> - Date and time of admission</li>
+<li><code>AdmissionEndDate</code> - Date and time of discharge after care for a specific admission ID</li>
+</ol>
+
+<script src="https://gist.github.com/sparalic/025e96e13824305b179d271cb3eed9b2.js"></script>
+
+<p><strong>Patient Diagnosis Table</strong></p>
+
+<p>The diagnosis table is quite unique, as it can contain several diagnosis codes for the same visit. For example, Patient 1 was diagnosed with diabetes (<code>PrimaryDiagnosisCode</code>:E11.64) during his/her first visit (<code>Admission ID</code>:12). However, this code also shows up on subsequent visits (<code>Admission ID</code>:34, 15), why is that? Well if a patient is diagnosed with an uncurable condition he/she that code will always be associated all subsequent visits. On the other hand, codes associated with acute care, will come and go as seen with <code>PrimaryDiagnosisCode</code>:780.96(headache).</p>
+
+<script src="https://gist.github.com/sparalic/d9b58614f58826db95415ed941a12161.js"></script>
+
+<p><strong>Helper functions for parsing data from a dictionary to DataFrame</strong></p>
+
+<script src="https://gist.github.com/sparalic/b2d6bb353448a66b9bbd243cd31730ed.js"></script>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*1TAij25y-5LyvK2b03BqrA.png" alt="img" /></p>
+
+<p><center>DataFrame of artificially generated EHR data</center></p>
+
+<p><strong>Create a hashkey for Admission ID</strong></p>
+
+<p>Why do this step? Unless your EHR system has uniquely identifiable Admission IDs for each patients visit, it would be difficult to associate each patient ID with a unique <code>Admission ID</code>. To demonstrate this, we deliberately created double digit <code>Admission ID</code>s one of which was repeated ( <code>Admission ID</code>: 34) for both patients. To avoid this, we took a pre-cautionary step to create a hash key that is a unique combination of the first half of the the unique <code>PatientID</code>hyphenated with the patient&rsquo;s specific <code>Admission ID</code>.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*QZwPK8dyftYl3IAlkWQGRQ.png" alt="img" /></p>
+
+<p><strong>Final Admission and Diagnosis Tables generated with fake EHR data</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*VyPnZzA4s1Zcr1MEwD8_og.png" alt="img" /></p>
+
+<p><center>Admission table with artificially generated data</center></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*vBBwqCQkGPcWpaPMh8YKkA.png" alt="img" /></p>
+
+<p><center>Diagnosis table with artificially generated</center></p>
+
+<p><strong>Write tables to csv files</strong></p>
+
+<script src="https://gist.github.com/sparalic/1595ea1406c53987a6f6ce9c5465ebcf.js"></script>
+
+<hr />
+
+<p><strong>Part 2: Pre-processing artificially generated EHR data</strong></p>
+
+<p>In this section we will demonstrate how to process the data in preparation for modeling.The intent of this tutorial is to provide a detailed step through on how EHR data should be pre-processed for use in RNNs using Pytorch. This paper is one of the few papers that provide a code base to start taking a detailed look into how we can build generic models that leverages temporal models to predict future clinical events. However, while this highly cited paper is open sourced (written using Theano:<a href="https://github.com/mp2893/doctorai%29">https://github.com/mp2893/doctorai)</a>, it assumes quite a bit about its readers. As such, we have modernized the code for ease of use in python 3+ and provided a detailed explanation of each step to allow anyone, with a computer and access to healthcare data to begin trying to develop innovative solutions to solve healthcare challenges.</p>
+
+<p><strong>Important Disclaimer:</strong></p>
+
+<p>This data set was artificial created with two patients in Part 1 of this series to help provide readers with a clear understanding of the basic structure of EHR data. Please note that each EHR system is specifically designed to meet a specific providers needs and this is just a basic example of data that is typically contained in most systems. Additionally, it is also key to note that this tutorial begins after all of the desired exclusion and inclusion criteria related to your research question has been performed. Therefore, at this step your data would have been fully wrangled and cleaned.</p>
+
+<p><strong>Load data : A quick review of the artificial EHR data we created in Part 1:</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*16Nb9p9M69U-Trsfj-EGIw.png" alt="img" /></p>
+
+<p><strong>tep 1: Create mappings of patient IDs</strong></p>
+
+<p>In this step we are going to create a dictionary that maps each patient with his or her specific visit or <code>Admission ID</code>.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*Njhot-skLFhjBupmuI0dqA.png" alt="img" /></p>
+
+<script src="https://gist.github.com/sparalic/b792f6847240d2c37ad3035567a84763.js"></script>
+
+<p><strong>Step 2: Create Diagnosis Code Mapped to each unique patient and visit</strong></p>
+
+<p>This step as with all subsequent steps is very important as it is important to keep the patient’s diagnosis codes in the correct visit order.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*w87koeQa6_xUTXp9Kplsug.png" alt="img" /></p>
+
+<script src="https://gist.github.com/sparalic/e9befa55a48f6b3f251d012692a85179.js"></script>
+
+<p><strong>Step 3: Embed diagnosis codes into visit mapping Patient-Admission mapping</strong></p>
+
+<p>This step essentially adds each code assigned to the patient directing into the dictionary with the patient-admission id mapping and the visit date mapping <code>visitMap</code>. Which allows us to have a list of list of diagnosis codes that each patient received during each visit.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*29uW_sXzFx-2UPsBOP72Sg.png" alt="img" /></p>
+
+<script src="https://gist.github.com/sparalic/3c8c7986a680afeea2a42c9350533d4a.js"></script>
+
+<p><strong>Step 4a: Extract patient IDs, visit dates and diagnosis</strong></p>
+
+<p>In this step, we will create a list of all of the diagnosis codes, this will then be used in step 4b to convert these strings into integers for modeling.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*P7R81im_dheDqaq0SRgwmA.png" alt="img" /></p>
+
+<script src="https://gist.github.com/sparalic/d84161f73b3732e3b58bf1beaa96a596.js"></script>
+
+<p><strong>Step 4b: Create a dictionary of the unique diagnosis codes assigned at each visit for each unique patient</strong></p>
+
+<p>Here we need to make sure that the codes are not only converted to integers but that they are kept in the unique orders in which they were administered to each unique patient.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*poQbXNnKQlEPZq7q-ZWQFg.png" alt="img" /></p>
+
+<script src="https://gist.github.com/sparalic/371121f2f8d3dd6e0ba3813f88216046.js"></script>
+
+<p><strong>Step 6: Dump the data into a pickled list of list</strong></p>
+
+<script src="https://gist.github.com/sparalic/7a3be737b599c6750e437c317080e813.js"></script>
+
+<p><strong>Full Script</strong>
+<script src="https://gist.github.com/sparalic/8ffc12eececadea37872766be92e2052.js"></script></p>
+
+<hr />
+
+<p><strong>Part 3: Doctor AI Pytorch minimal implementation</strong></p>
+
+<p>We will now apply the knowledge gained from the <a href="https://towardsdatascience.com/gate-recurrent-units-explained-using-matrices-part-1-3c781469fc18">GRUs tutorial</a> and <a href="https://medium.com/@sparklerussell/using-electronic-health-records-ehr-for-predicting-future-diagnosis-codes-using-gated-recurrent-bcd0de7d7436">part 1</a> of this series to a larger publicly available EHR dataset.This study will utilize the <a href="https://mimic.physionet.org/">MIMIC III electronic health record (EHR) dataset</a>, which is comprised of over <em>58,000</em> hospital admissions for <em>38,645</em> adults and <em>7 ,875</em> neonates. This dataset is a collection of de-identified intensive care unit stays at the <strong>Beth Israel Deaconess Medical Center</strong> from June 2001- October 2012. Despite being de-identified, this EHR dataset contains information about the patients’ demographics, vital sign measurements made at the bedside (~1/hr), laboratory test results, billing codes, medications, caregiver notes, imaging reports, and mortality (during and after hospitalization). Using the pre-processing methods demonstrated on artificially generated dataset in (Part 1 &amp; Part 2) we will create a companion cohort for use in this study.</p>
+
+<hr />
+
+<p><strong>Model Architecture</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/1600/1*NAT-F4V9OkG8e6uPpaoM1A.png" alt="img" /></p>
+
+<p><center>Doctor AI model architecture</center></p>
+
+<p><strong>Checking for GPU availability</strong></p>
+
+<p>This model was trained on a GPU enabled system…highly recommended.</p>
+
+<script src="https://gist.github.com/sparalic/3bbd374269d66c4f1450eb3607c5e435.js"></script>
+
+<p><strong>Load data</strong></p>
+
+<p>The data pre-processed datasets will be loaded and split into a train, test and validation set at a <code>75%:15%:10%</code> ratio.</p>
+
+<script src="https://gist.github.com/sparalic/594c6bc345ad1efccd115a32bc89e776.js"></script>
+
+<p><strong>Padding the inputs</strong></p>
+
+<p>The input tensors were padded with zeros, note that the inputs are padded to allow the RNN to handle the variable length inputs. A mask was then created to provide the algorithm information about the padding. Note this can be done using Pytorch’s utility <code>pad_pack_sequence</code> function. However, given the nested nature of this dataset, the encoded inputs were first multi-one hot encoded. This off-course creates a high-dimenisonal sparse inputs, however the dimensionality was then projected into a lower-dimensional space using an embedding layer.</p>
+
+<script src="https://gist.github.com/sparalic/326b60396cb6e7ac529db2c902d643ca.js"></script>
+
+<p><strong>GRU Class</strong></p>
+
+<p>This class contains randomly initiated weights needed to begin calculating the hidden states of the algorithms. Note that in this paper the author used embedding matrix (W_emb) generated using the skip-gram algorithm, which outperformed the randomly initialized approached shown in this step.</p>
+
+<script src="https://gist.github.com/sparalic/b11d2c09bc8298ae8641e4038130d8a7.js"></script>
+
+<p><strong>Custom Layer for handling two layer GRU</strong></p>
+
+<p>The purpose of this class is to perform the initially embedding followed by calculating the hidden states and performing dropout between the layers.</p>
+
+<script src="https://gist.github.com/sparalic/6a1ef076f1add3d1cefbf74592615f9f.js"></script>
+
+<p><strong>Train model</strong></p>
+
+<p>This model is a minimal implementation for the Dr.AI algorithm created by Edward Choi, while functional it requires significant tuning. This will be demonstrated in a subsequent tutorial.</p>
+
+<p><script src="https://gist.github.com/sparalic/634235bc617d9bf749ed96d25c03bff5.js"></script>
+<strong>Final Notes/ Next Steps:</strong></p>
+
+<p>This should serve as starter code to get the model up and running. As noted before, a significant amount of tuning will be required as this was built using custom classes. We will walkthrough the process in a future tutorial.</p>
+
+<p><strong>References:</strong></p>
+
+<ol>
+<li>Doctor AI: Predicting Clinical Events via Recurrent Neural Networks (<a href="https://arxiv.org/abs/1511.05942">https://arxiv.org/abs/1511.05942</a>)</li>
+</ol>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/healthcare" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Healthcare</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/electronic-health-records" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Electronic Health Records</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/grus" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">GRUs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deep Learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/rnns" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">RNNs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deep learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/machine-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">machine learning</a>
+   </li>
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/">Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/gated-recurrent-units-explained-using-matrices-part-1/">Gated Recurrent Units explained using matrices: Part 1</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/projects/poisonous-plants-app/">Poisonous Plant Classifier using RESNET 34 fast.ai library</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/predicting-breast-cancer/">Predicting Breast Cancer</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/diagnostic-model-for-predicting-cardiovascular-disease-risk/">Diagnostic model for predicting Cardiovascular Disease Risk</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://sparalic.github.io/" >
+    &copy; 2019 Sparkle Russell-Puleri
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
