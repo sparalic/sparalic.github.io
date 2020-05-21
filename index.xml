@@ -6,10 +6,20 @@
     <description>Recent content in Welcome to Sparkle&#39;s Blog on Sparkle Russell-Puleri</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 Apr 2019 10:58:08 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 10 May 2020 11:58:08 -0400</lastBuildDate>
     
 	<atom:link href="https://sparalic.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Predicting 30 Readmission risk for ICU patients:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records</title>
+      <link>https://sparalic.github.io/post/readmission-risk-final/</link>
+      <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/post/readmission-risk-final/</guid>
+      <description>by: Sparkle Russell-Puleri
+Problem Readmission whether planned or unplanned costs the U.S healthcare system billions of dollars annually. This, among other things, is of great importance to healthcare systems, since about one-third of readmissions are preventable, providing a huge opportunity for hospital systems to improve their quality of care 1. This compounded with the fact that hospitals are also penalized with up to 3% lower reimbursements from the Centers for Medicare &amp;amp; Medicaid Services(CMS) for increased readmission rates, as a part of the 2012 affordable care act passed by the Obama admistration 2, creates a huge oppotunity for the use of data to build algorithms that are capable of prediciting which patients are likely to be readmitted if discharged early.</description>
+    </item>
     
     <item>
       <title>Predicting future medical diagnoses with RNNs using Fast AI API from scratch</title>

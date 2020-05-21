@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Sparkle Russell-Puleri  | Predicting 30 Readmission risk for ICU patients:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.55.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.955516233bcafa4d2a1c13cea63c7b50.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="Predicting 30 Readmission risk for ICU patients:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records" />
+<meta property="og:description" content="Predicting 30 Readmission risk for ICU patients" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://sparalic.github.io/post/readmission-risk-final/" />
+<meta property="article:published_time" content="2020-05-10T11:58:08-04:00"/>
+<meta property="article:modified_time" content="2020-05-10T11:58:08-04:00"/>
+
+<meta itemprop="name" content="Predicting 30 Readmission risk for ICU patients:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records">
+<meta itemprop="description" content="Predicting 30 Readmission risk for ICU patients">
+
+
+<meta itemprop="datePublished" content="2020-05-10T11:58:08-04:00" />
+<meta itemprop="dateModified" content="2020-05-10T11:58:08-04:00" />
+<meta itemprop="wordCount" content="2983">
+
+
+
+<meta itemprop="keywords" content="Healthcare,Electronic Health Records,GRUs,deep Learning,RNNs,deep learning,machine learning,personalized healthcare," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Predicting 30 Readmission risk for ICU patients:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records"/>
+<meta name="twitter:description" content="Predicting 30 Readmission risk for ICU patients"/>
+<meta name="twitter:site" content="@sparklepuleri"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  
+  
+  <header class="cover bg-top" style="background-image: url('https://sparalic.github.io/images/personalized.png');">
+    <div class="pb3-m pb6-l bg-black-60">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="https://sparalic.github.io/" class="f3 fw2 hover-white no-underline white-90 dib">
+      Sparkle Russell-Puleri
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Blog page">
+              Blog
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/projects/" title="Projects page">
+              Projects
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/publications/" title="Publications page">
+              Publications
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+      <div class="tc-l pv6 ph3 ph4-ns">
+        
+          <h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Predicting 30 Readmission risk for ICU patients:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records</h1>
+          
+            <h2 class="fw1 f5 f3-l white-80 measure-wide-l center lh-copy mt3 mb4">
+              Predicting 30 Readmission risk for ICU patients
+            </h2>
+          
+        
+      </div>
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        BLOG
+      </p>
+      <h1 class="f1 athelas mb1">Predicting 30 Readmission risk for ICU patients:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records</h1>
+      
+      <time class="f6 mv4 dib tracked" datetime="2020-05-10T11:58:08-04:00">May 10, 2020</time>      
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>by: Sparkle Russell-Puleri</p>
+
+<p><h3>Problem</h3>
+<div style="text-align: justify;">Readmission whether planned or unplanned costs the U.S healthcare system billions of dollars annually. This, among other things,  is of great importance to healthcare systems, since about one-third of readmissions are preventable, providing a huge opportunity for hospital systems to improve their quality of care <sup>1</sup>. This compounded with the fact that  hospitals are also penalized with  up to 3% lower reimbursements from the Centers for Medicare &amp; Medicaid Services(CMS)  for increased readmission rates, as a part of the 2012 affordable care act passed by the Obama admistration <sup>2</sup>, creates a huge oppotunity for the use of data to build algorithms that are capable of prediciting which patients are likely to be readmitted if discharged early.</div></p>
+
+<div style="text-align: justify;">In recent years, many studies using Electronic Health Records (EHR) data and machine learning techniques were executed to help determine whether or not big data can detect patients that are at high risk of being readmitted within 30 days. These studies utilized a plethora of statistical and machine learning techniques,  ranging from basic epidemiological models to deep learning  LSTM and CNN architectures with expertly crafted features$^{3-12}$. Despite the progress, one shortcoming of many of the studies is the general one size fits all approach used to predict a patients risk of readmission mostly targeting specific phenotypes. As we move toward developing personalized medicines that takes into account each patient's individual risks factors, we should also apply this same mindset to creating alogrithms that are tailored to the vast subpoulations that exists in complexed EHR data. Therefore, in this study I  explored the feasibility of using an unsupervised approach to cohort selection to first identify subpopulations within the dataset before predicting each group's risk of being readmitted in 30 days.</div>
+
+<p><h3>Proposed Study</h3>
+<div style="text-align: justify;">In this study, I will use single task and multi task models to predict 30 day readmission risk using the MIMIC III dataset. This will be done by first clustering patients using a data driven unsupervised approach to cluster patients using sociodemographic, operational, and clinical factors captured in the last 48 hours of their stay.This will then be used to predict the patient&rsquo;s risk of readmission within 30 days of discharge from the ICU using a multi-task framework. This approach was first introduced by Suresh et.al., (2018) <sup>13</sup> to predict in hospital mortality in the ICU. To the best of my knowledge this is the first study that uses this two step approach to predict 30 day readmission risks of heterogenous patients in the ICU. Additionally, it is key to note that this study focuses on the implementation and tests the feasibility of this modeling approach,  which if sucessfull will then lead to possible follow-ups and improvements of this study in a subsequent post.</div></p>
+
+<p><h3>Data Source</h3>
+<div style="text-align: justify;">This project utilized the <a href="https://mimic.physionet.org/">MIMIC III</a> electronic health record (EHR) dataset, which is comprised of over 58,000 hospital admissions for 38,645 adults and 7,875 neonates. This dataset is a collection of de-identified intensive care unit stays at the Beth Israel Deaconess Medical Center from June 2001- October 2012.</div></p>
+
+<p><h3>Data Preprocessing</h3>
+<div style="text-align: justify;">Sociodemographic, operational, and clinical factors have been shown to be assoicated with readmission. The vast majority of models built to assess 30 day readmission risk, rely mostly on the sociodemographic, operational and expertly crafted disease specific clinical variables(comorbities)<sup>14-16</sup>, with a small portion including the time varying measurements such as labs and vitals to comprehensively capture a patients progress during their stay. Hence, to holistically assess this approach the following static and time varying variables were used in addition to the administrative and cormobidity features. The time varying features were windowed to catupure the last 48 hours of a patients stay. To address the missing data challenges with the data, the data was backfilled from the last measure data point.</div></p>
+
+<p><figure>
+    <img src="/images/feature_final.png"/> 
+</figure>
+
+<strong>Table 1.</strong> Features used to predict readmission risk based on phisological and vitals measured in the last 48 hours of a patients stay.</p>
+
+<p><strong>Inclusion Criteria:</strong></p>
+
+<ol>
+<li>Patients over the &ge; 18</li>
+<li>Patients first ICU stay as index (for patients with multiple hospital stays)</li>
+</ol>
+
+<p><strong>Exclusion Criteria:</strong></p>
+
+<ol>
+<li>Patients that died in the hospial</li>
+<li>Transfers between units</li>
+</ol>
+
+<p>The cohort was then created using the above inclusion and exclusion criteria in the following steps:</p>
+
+<p><strong>Step 1: Calculate age, remove patients under 18 years and create readmission flag</strong></p>
+
+<div style="text-align: justify;">The SQL script below extracts patients first discharge date from the ICU and used that discharge date to estimate the time elapsed between the first discharge date and readmission back to the ICU. The age of each patient was calculated as the difference between the shifted date of admission to the ICU and the year of birth. Please do not be suprised when an age of 300 shows up in the dataset, this is caused by a replacement of all ages > 89 with 300 in the MIMIC III dataset.</div>
+
+<script src="https://gist.github.com/sparalic/96f30a485fe41c687e6e58aaf4126b7a.js"></script>
+
+<p><strong>Step 2:</strong> Using the four most common comorbidity risk factors, extract this information from each patient in the above SQL view.</p>
+
+<script src="https://gist.github.com/sparalic/b1fb3ce6ed408297b827a8a5e31f8276.js"></script>
+
+<p><strong>Step 3:</strong> Extract all of the time varying labs and vitals listed in Table 1. for each patient in the cohort</p>
+
+<script src="https://gist.github.com/sparalic/2b4fe7076b3b1dcb547591cbdf8b6e17.js"></script>
+
+<p><strong>Step 4:</strong> Average labs that were measured in the same hour by lab and patient</p>
+
+<script src="https://gist.github.com/sparalic/017332a68e903c3628df451b9501d2a6.js"></script>
+
+<p><h3>Methods</h3>
+<div style="text-align: justify;">After preprocessing the data an autoencoder was used to first create a dense representation of the features, given their initial sparsity. The output of the autoencoder was then used to fit a Gaussian Mixture Model (GMM), which is a probabilistic model that can be synonymized with being a generalized version of the k-means by including information about the covariance structure of the data as well as the centers of the latent Gaussians.</div></p>
+
+<figure>
+    <img src="/images/algo_flow.png"/> 
+</figure>
+
+
+<h4>Global Model Architecture:</h4>
+<div style="text-align: justify;">To help leverage the time varying variables for predicting 30-day readmission risk, a LSTM was used in each architecture. In the global model (Figure 2.), a single LSTM layer was used to train on all of the data ,creating a global baseline with the intent of demonstrating the performance of a one size fits all model versus one that has a separate dense layer for each patient group.</div>   
+**Figure 2:** Global multi-task model configuration with separate parameters for each cohort at the last output layer<sup>13</sup>
+
+<h4>Multitask Model Architecture:</h4>
+<div style="text-align: justify;">Similar to the global approach, this model used a single LSTM layer, however the final dense layer  was specific to each cohort. This presents an opportunity for the models to learn salient patterns that are only present in specific patient cohorts versus using a shared dense layer which does not account for the differences. The archiecture of this model can be see in Figure 3 below:</div>
+
+
+<figure>
+    <img src="/images/multiTT.png"/> 
+</figure>
+
+<strong>Figure 3:</strong> Seperate dense layer multi-task model configuration with separate parameters for each cohort at the last output layer<sup>13</sup>
+
+
+<h3>Results</h3>
+<h4>How many clusters (components)?</h4>
+<div style="text-align: justify;">Using the embeddings created by the autoencoder, the <strong>Akaike information criterion (AIC)</strong> or  <strong>Bayesian information criterion (BIC)</strong> plot was created to determine the optimal number of components (clusters) that minimizes the AIC and BIC. The results of these plots illustrate that 5 clusters would be best. However, the larger the cluster size the smaller the cohort, and my experiements using 4 or 5 clusters with a highly imbalanced data set resulted in homogenous clusters with only negative cases. Therefore a cluster size of 3 was chosen as a compromise in order to create a meaningful cohort that had a consistent prevelance. It is also key to note that while the AIC and BIC do generate negative values it is not the absolute size of the AIC or BIC value that determines if the selected model is best, it is the relative values over the set of models considered<sup>18-19</sup></div>.</div>
+
+<figure>
+    <img src="/images/n_comp.png"/> 
+</figure>
+
+<strong>Figure 4:</strong> AIC and BIC plot the illustrating the effect of the the number of components chosen on the performance of the density estimator of the GMM
+
+<h3>Visualizing the unsupervised patient clusters</h3>
+<h4>t- distributed Stohcastic Neighborhood Embedding representation of Clusters in 2D</h4>
+<div style="text-align: justify;">The plot below(Figure 5) is a t-SNE representation of the output clusters predicted by GMM model. Here you can see that the clusters overlap quiet a bit which makes it difficult to get a better picture of the clusters in 2-dimensions. Thus a 3D t-SNE representation was created in Figure 6.</div>
+
+<figure>
+    <img src="/images/2d_tsne.png"/> 
+</figure>
+
+<strong>Figure 5:</strong> 2D t-SNE plot of patient cohorts created by the GMM<br>
+
+<h4>t-SNE representation of clusters in 3D</h4>
+<div style="text-align: justify;">To help improve the visualization of the 4 clusters created, a t-SNE representation of the embeddings was created. The figure below shows the scatter plot and cluster plot of the clusters generated by the GMM model. Here we can see that a vast majority of the patients are in cluster 1, the cluster that contained majority of the readmissions, followed by cluster 2. We can see that both clusters 1 and 2 seemed to be more densely distributed than cluster 0, which seems to be must more dispersed.</div>
+
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://sparalic.github.io/readmission/index.html" height="525" width="100%"></iframe>
+<strong>Figure 6:</strong> Scatter plot of all patient clusters using a t-SNE 3D representation
+
+<figure>
+    <img src="/images/clusters_indv.png"/> 
+</figure>
+
+
+<strong>Figure 8:</strong>Individual 3D scatter plots of each patient cohort showing the spread of patients in each group
+
+<h4>Readmission Prevalence by cluster</h4>
+
+<div style="text-align: justify;">The prevalence rates varied significantly across each cluster, ranging from 5.6% in cluster 0, 13.04% in cluster 1, to 10.27% in cluster 2. The global multi-task model was trained on the entire cohort of patients with the final dense layer sharing the predictions of each patient cohort.</div>
+
+<p><figure>
+    <img src="/images/prevalence.png"/> 
+</figure>
+
+<strong>Table 2:</strong> Prevlance across all patient cohorts over the last 48 hours of stay</p>
+
+<h4>Patient Characteristics by Cluster and Readmission status</h4>
+<div style="text-align: justify;">Using the clusters generated by the GMM model, Table 3 showed the baseline characteristics stratified by each patient cohort and readmission status of 33, 972 discharges and 3602(10.6%) readmissions. Overall, the vast majority of patients who were readmitted within 30 days were in cluster 1 ,  59% population in cluster were male, 67.7% white, with a median length of stay of 2.70 days and 48.7% covered by Medicare. Since the age was discritzed, the majority of readmission across all clusters occured in the 51-70 year old age group and were orginally discharged to a skilled nursing facility(SNF). Patients who had exisiting conditions such as congestive heart failure also showed higher readmission rates over the other four comorbities included in the dataset.</div>
+
+
+<figure>
+    <img src="/images/table1.png"/> 
+</figure>
+
+<strong>Table 3:</strong> Baseline characterics of patient cohorts by cluster and 30-day readmission status
+
+<h4>Vitals and lab features by unsupervised cluster</h4>
+<div style="text-align: justify;">The heatmaps below shows the change in z-score values of both the laboratory and vital sign features over the last 48 hours of a patient's stay. Postive,  negative or zero values of the vitals indicate elevated levels, decreased, or average levels of each feature over time, respectively. In the case of cluster 0, it showed consitently increasing blood pressure and respiratory rates over the last 48 hours while, cluster 1showed increased Glascow coma scores in the early hours of the day prior to discharge. Interestingly, cluster 2 showed quite a few missing measurements, which is expected since many of these labs will not be captured later in a patients stay.</div> 
+
+<figure>
+    <img src="/images/cluster0_vitals.png"/> 
+</figure>
+
+<figure>
+    <img src="/images/cluster1_vitals.png"/> 
+</figure>
+
+<figure>
+    <img src="/images/cluster2_vitals.png"/> 
+</figure>
+
+<strong>Figure 9:</strong> Vital sign variable trends over the last 48 hours prior to discharge from the ICU
+
+<h4>Labs</h4>
+<div style="text-align: justify;">In the case of the laboratory measurements within the last 48 hours prior to discharge; in cluster 1 where most of the patients were readmitted in we see many of the labs remained largely elevated over the course of the last 48 hours of stay, with the exception of Albumin, blood pH and pO2 which stayed realtively lower than average. Like the vitals heat map, here the same trend of missing lab values over the course of the last 48 hours increased as the frequency in which these labs were measured decreased later into the ICU stay.</div> 
+
+
+<figure>
+    <img src="/images/cluster0_labs.png"/> 
+</figure>
+
+<figure>
+    <img src="/images/cluster1_labs.png"/> 
+</figure>
+
+<figure>
+    <img src="/images/cluster2_labs.png"/> 
+</figure>
+
+**Figure 10:** Routine laboratory variable trends over the last 48 hours prior to discharge from the ICU
+
+<h4>Model Results</h4>
+<div style="text-align: justify;">To assess whether the clusters play a role in better predicting a patient's risk the patient cohorts were presented to a global multi-task model and the individual dense layer multi-task model for predictig a patients 30-day readmission risk. The results shown in Table 3. while promising come at a huge cost. While the algorithms were great at predicting negative cases, they did a poor job predicting positive cases. Hence the results below might be misleading, as they are heavily based on the majority class. This is can be attributed to several factors. Having several optimziers, network sizes and learning rates with no improvements in the PPV, I suggest that a possible cause for this is mostly likley the sparsity and reduced frequency in which many of the routine physiological data is collected at closer to discharge as illustrated in Figures 9-10. This led to the development of a feature set that is heavily influenced by missing values. However this approach can work using a different feature engineering approach. Note the single task model presented in the paper also performed significantly worse than the other which the author also experienced in her study, hence it was also not included.</div>
+
+<figure>
+    <img src="/images/model_results.png"/> 
+</figure>
+
+<strong>Table 4:</strong> Unsupervised modeling approach results on 30-day readmission task using global and multi-task models.
+
+<h4>Conclusion/Limitations</h4>
+<div style="text-align: justify;">This project demonstrates how the idea of personalized should be done in the real world setting. However, the method will need to be adapted to ensure that the selected features provide meaningful results for predicting the outcome at hand. Some of the findings when revisitng the work presented in this paper that should be addressed if this method is to be used on other research projects include:</div>
+
+1. Performing z-score normalization after spliting the data into the train/test/val sets to avoid information leakage from the training set into the test set.
+2. Filling the missing datasets with the normal values for these labs and providing the algorithm with a mask to identify missingness vs. dummifying the features and creating a larger set of sparse features.</div>
+
+<h4>Future directions</h4>
+<div style="text-align: justify;">This publication is a step in the right direction of personalizing healthcare, and with some changes this modeling approach can provide some interesting insights into specific sub-populations which are often overlooked when building health related models because of the limited cohort sizes available after applying the inclusion and exclusion criteria. However, while this is only a preliminary study that explored the modeling approach as is. With further research, and well crafted features and potentially using a more robust feature engineering strategy can further propel and evolve this approach. If :</div>
+
+1. We use a channel-wise LSTM approach proposed by Harutyunyan et.al, 2017 <sup>12</sup> , to better account for missingness by explicitly showing which variables are missing as well as allowing the model to learn and store relevant information related to that specific variable before mixing with other variables with in each cluster.
+2. We embed the patient data prior to presentation to the LSTM layer, to help reduce the sparsity of the labs.
+3. We use the clinical notes to extract prior drug use and add high–risk medications such as: 
+   1. steroids
+   2. narcotics
+   3. anticholinergics
+4. Carefully crafted lab features  using values that are abnormal within the first day and last 24 hrs of stay 
+
+[Code is available on github](https://github.com/sparalic)
+
+<h4>Acknowledgements:</h4>
+ Special thanks to Eraldi Skendaj for critically reading and providing feedback.
+
+<h4>References:</h4>
+
+<ol>
+<li><p>Bates, D. W., Saria, S., Ohno-Machado, L., Shah, A. &amp; Escobar, G. Big data in health care: using analytics to identify and manage high-risk and high-cost patients. Heal. Aff. 33, 1123–1131 (2014).<br></p></li>
+
+<li><p><a href="https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/AcuteInpatientPPS/Readmissions-Reduction-Program">https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/AcuteInpatientPPS/Readmissions-Reduction-Program</a><br></p></li>
+
+<li><p>Y. P. Tabak, X. Sun, C. M. Nunez, V. Gupta and R. S. Johannes, &ldquo;Predicting readmission at early hospitalization using electronic clinical data: An early readmission risk score&rdquo;, <em>Med. Care</em>, vol. 55, no. 3, 2017.<br></p></li>
+
+<li><p>H. Wang, Z. Cui, Y. Chen, M. Avidan, A. B. Abdallah and A. Kronzer, &ldquo;Predicting Hospital Readmission via Cost-Sensitive Deep Learning,&rdquo; in <em>IEEE/ACM Transactions on Computational Biology and Bioinformatics</em>, vol. 15, no. 6, pp. 1968-1978, 1 Nov.-Dec. 2018, doi: 10.1109/TCBB.2018.2827029.<br></p></li>
+
+<li><p>Marc D. Silverstein, Huanying Qin, S. Quay Mercer, Jaclyn Fong &amp; Ziad Haydar (2008) Risk Factors for 30-Day Hospital Readmission in Patients ≥65 Years of Age, Baylor University Medical Center Proceedings, 21:4, 363-372<br></p></li>
+
+<li><p>Velibor V. Mišić, Eilon Gabel, Ira Hofer, Kumar Rajaram, Aman Mahajan; Machine Learning Prediction of Postoperative Emergency Department Hospital Readmission. <em>Anesthesiology</em> 2020;132(5):968-980. doi: <a href="https://doi.org/10.1097/ALN.0000000000003140">https://doi.org/10.1097/ALN.0000000000003140</a>.<br></p></li>
+
+<li><p>Vunikili, Ramya &amp; Glicksberg, Benjamin &amp; Johnson, Kipp &amp; Dudley, Joel &amp; Subramanian, Lakshminarayanan &amp; Khader, Shameer. (2018). Predictive modeling of susceptibility to substance abuse, mortality and drug-drug interactions in opioid patients.<br></p></li>
+
+<li><p>McIntyre LK, Arbabi S, Robinson EF, Maier RV. Analysis of Risk Factors for Patient Readmission 30 Days Following Discharge From General Surgery. JAMA Surg. 2016;151(9):855‐861. doi:10.1001/jamasurg.2016.1258<br></p></li>
+
+<li><p>Press VG. Is It Time to Move on from Identifying Risk Factors for 30-Day Chronic Obstructive Pulmonary Disease Readmission? A Call for Risk Prediction Tools. <em>Ann Am Thorac Soc</em>. 2018;15(7):801‐803. doi:10.1513/AnnalsATS.201804-246ED<br></p></li>
+
+<li><p>M.J. Rothman et al./Journal of Biomedical Informatics 46 (2013) 837–848<br></p></li>
+
+<li><p>Ohnuma, T., Shinjo, D., Brookhart, A. <em>et al.</em> Predictors associated with unplanned hospital readmission of medical and surgical intensive care unit survivors within 30 days of discharge. <em>j intensive care</em> <strong>6,</strong> 14 (2018). <a href="https://doi.org/10.1186/s40560-018-0284-x">https://doi.org/10.1186/s40560-018-0284-x</a><br></p></li>
+
+<li><p>Hrayr Harutyunyan, Hrant Khachatrian, David C Kale, and Aram Galstyan. 2017. Multitask Learning and Benchmarking with Clinical Time Series Data. arXiv preprint arXiv:1703.07771 (2017).<br></p></li>
+
+<li><p>Harini Suresh, Jen J Gong, and John Guttag. Learning tasks for multitask learning: Het- erogenous patient populations in the icu. arXiv preprint arXiv:1806.02878, 2018<br></p></li>
+
+<li><p>Keenan PS, Normand SL, Lin Z, et al. An administrative claims measure suitable for profiling hospital performance on the basis of 30- day all-cause readmission rates among patients with heart failure. <em>Circ Cardiovasc Qual Outcomes</em>. 2008;1:29–37<br></p></li>
+
+<li><p>Krumholz HM, Lin Z, Drye EE, et al. An administrative claims measure suitable for profiling hospital performance based on 30-day all-cause readmission rates among patients with acute myocardial infarction. <em>Circ Cardiovasc Qual Outcomes</em>. 2011;4:243–252.<br></p></li>
+
+<li><p>Lindenauer PK, Normand SL, Drye EE, et al. Development, validation, and results of a measure of 30-day readmission following hospitalization for pneumonia. <em>J Hosp Med</em>. 2011;6:142–150.<br></p></li>
+
+<li><p>Baguley, Thomas. Serious stats: A guide to advanced statistics for the behavioral sciences. Palgrave Macmillan, 2012. (page 402)<br></p></li>
+
+<li><p><a href="https://books.google.ca/books?id=fT1Iu-h6E-oC&amp;printsec=frontcover#v=onepage&amp;q&amp;f=false">Model Selection and Multi-model Inference: A Practical Information-theoretic Approach</a> (Burnham and Anderson, 2004)<br></p></li>
+
+<li><p>image source: <a href="https://audiotech.com/trends-magazine/building-the-foundation-for-personalized-medicine/">https://audiotech.com/trends-magazine/building-the-foundation-for-personalized-medicine/</a></p></li>
+</ol>
+<ul class="pa0">
+  
+   <li class="list">
+     <a href="/tags/healthcare" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Healthcare</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/electronic-health-records" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Electronic Health Records</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/grus" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">GRUs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deep Learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/rnns" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">RNNs</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/deep-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">deep learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/machine-learning" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">machine learning</a>
+   </li>
+  
+   <li class="list">
+     <a href="/tags/personalized-healthcare" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">personalized healthcare</a>
+   </li>
+  
+</ul>
+<div class="mt6">
+        
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+  <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+    <p class="f5 b mb3">Related</p>
+    <ul class="pa0 list">
+	   
+	     <li  class="mb2">
+          <a href="/post/predicting-future-medical-diagnoses-with-rnns-using-fast-ai-api-from-scratch/">Predicting future medical diagnoses with RNNs using Fast AI API from scratch</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/using-electronic-health-records-to-predict-future-diagnosis-codes-with-gated-recurrent-units/">Using Electronic Health Records to predict future diagnosis codes with Gated Recurrent Units</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/gated-recurrent-units-explained-with-matrices-part-2-training-and-loss-function/">Gated Recurrent Units explained with matrices: Part 2 Training and Loss Function</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/gated-recurrent-units-explained-using-matrices-part-1/">Gated Recurrent Units explained using matrices: Part 1</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/projects/poisonous-plants-app/">Poisonous Plant Classifier using RESNET 34 fast.ai library</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/predicting-breast-cancer/">Predicting Breast Cancer</a>
+        </li>
+	    
+	     <li  class="mb2">
+          <a href="/post/diagnostic-model-for-predicting-cardiovascular-disease-risk/">Diagnostic model for predicting Cardiovascular Disease Risk</a>
+        </li>
+	    
+    </ul>
+</div>
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://sparalic.github.io/" >
+    &copy; 2020 Sparkle Russell-Puleri
+  </a>
+    <div>
+
+
+
+<a href="https://twitter.com/sparklepuleri" target="_blank" class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel="noopener" aria-label="follow on Twitter——Opens in a new window">
+  <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+<a href="https://www.linkedin.com/in/sparkle-russell-puleri-ph-d-a6b52643/" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+<a href="https://github.com/sparalic" target="_blank" class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel="noopener" aria-label="follow on Github——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

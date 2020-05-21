@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Sparkle Russell-Puleri</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 Apr 2019 10:58:08 -0400</lastBuildDate>
+    <lastBuildDate>Sun, 10 May 2020 11:58:08 -0400</lastBuildDate>
     
 	<atom:link href="https://sparalic.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Deep Learning</title>
       <link>https://sparalic.github.io/tags/deep-learning/</link>
-      <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
+      <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
       
       <guid>https://sparalic.github.io/tags/deep-learning/</guid>
       <description></description>
@@ -23,7 +23,7 @@
     <item>
       <title>Electronic Health Records</title>
       <link>https://sparalic.github.io/tags/electronic-health-records/</link>
-      <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
+      <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
       
       <guid>https://sparalic.github.io/tags/electronic-health-records/</guid>
       <description></description>
@@ -32,7 +32,7 @@
     <item>
       <title>GRUs</title>
       <link>https://sparalic.github.io/tags/grus/</link>
-      <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
+      <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
       
       <guid>https://sparalic.github.io/tags/grus/</guid>
       <description></description>
@@ -41,9 +41,36 @@
     <item>
       <title>Healthcare</title>
       <link>https://sparalic.github.io/tags/healthcare/</link>
-      <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
+      <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
       
       <guid>https://sparalic.github.io/tags/healthcare/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RNNs</title>
+      <link>https://sparalic.github.io/tags/rnns/</link>
+      <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/tags/rnns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>machine learning</title>
+      <link>https://sparalic.github.io/tags/machine-learning/</link>
+      <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>personalized healthcare</title>
+      <link>https://sparalic.github.io/tags/personalized-healthcare/</link>
+      <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
+      
+      <guid>https://sparalic.github.io/tags/personalized-healthcare/</guid>
       <description></description>
     </item>
     
@@ -57,29 +84,11 @@
     </item>
     
     <item>
-      <title>RNNs</title>
-      <link>https://sparalic.github.io/tags/rnns/</link>
-      <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
-      
-      <guid>https://sparalic.github.io/tags/rnns/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>fast.ai</title>
       <link>https://sparalic.github.io/tags/fast.ai/</link>
       <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
       
       <guid>https://sparalic.github.io/tags/fast.ai/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>machine learning</title>
-      <link>https://sparalic.github.io/tags/machine-learning/</link>
-      <pubDate>Sat, 20 Apr 2019 10:58:08 -0400</pubDate>
-      
-      <guid>https://sparalic.github.io/tags/machine-learning/</guid>
       <description></description>
     </item>
     
