@@ -41,7 +41,7 @@
 
 <meta itemprop="datePublished" content="2020-05-10T11:58:08-04:00" />
 <meta itemprop="dateModified" content="2020-05-10T11:58:08-04:00" />
-<meta itemprop="wordCount" content="2983">
+<meta itemprop="wordCount" content="2996">
 
 
 
@@ -181,7 +181,7 @@
 <p><h3>Problem</h3>
 <div style="text-align: justify;">Readmission whether planned or unplanned costs the U.S healthcare system billions of dollars annually. This, among other things,  is of great importance to healthcare systems, since about one-third of readmissions are preventable, providing a huge opportunity for hospital systems to improve their quality of care <sup>1</sup>. This compounded with the fact that  hospitals are also penalized with  up to 3% lower reimbursements from the Centers for Medicare &amp; Medicaid Services(CMS)  for increased readmission rates, as a part of the 2012 affordable care act passed by the Obama admistration <sup>2</sup>, creates a huge oppotunity for the use of data to build algorithms that are capable of prediciting which patients are likely to be readmitted if discharged early.</div></p>
 
-<div style="text-align: justify;">In recent years, many studies using Electronic Health Records (EHR) data and machine learning techniques were executed to help determine whether or not big data can detect patients that are at high risk of being readmitted within 30 days. These studies utilized a plethora of statistical and machine learning techniques,  ranging from basic epidemiological models to deep learning  LSTM and CNN architectures with expertly crafted features$^{3-12}$. Despite the progress, one shortcoming of many of the studies is the general one size fits all approach used to predict a patients risk of readmission mostly targeting specific phenotypes. As we move toward developing personalized medicines that takes into account each patient's individual risks factors, we should also apply this same mindset to creating alogrithms that are tailored to the vast subpoulations that exists in complexed EHR data. Therefore, in this study I  explored the feasibility of using an unsupervised approach to cohort selection to first identify subpopulations within the dataset before predicting each group's risk of being readmitted in 30 days.</div>
+<div style="text-align: justify;">In recent years, many studies using Electronic Health Records (EHR) data and machine learning techniques were executed to help determine whether or not big data can detect patients that are at high risk of being readmitted within 30 days. These studies utilized a plethora of statistical and machine learning techniques,  ranging from basic epidemiological models to deep learning  LSTM and CNN architectures with expertly crafted features<sup>3-12</sup>. Despite the progress, one shortcoming of many of the studies is the general one size fits all approach used to predict a patients risk of readmission mostly targeting specific phenotypes. As we move toward developing personalized medicines that takes into account each patient's individual risks factors, we should also apply this same mindset to creating alogrithms that are tailored to the vast subpoulations that exists in complexed EHR data. Therefore, in this study I  explored the feasibility of using an unsupervised approach to cohort selection to first identify subpopulations within the dataset before predicting each group's risk of being readmitted in 30 days.</div>
 
 <p><h3>Proposed Study</h3>
 <div style="text-align: justify;">In this study, I will use single task and multi task models to predict 30 day readmission risk using the MIMIC III dataset. This will be done by first clustering patients using a data driven unsupervised approach to cluster patients using sociodemographic, operational, and clinical factors captured in the last 48 hours of their stay.This will then be used to predict the patient&rsquo;s risk of readmission within 30 days of discharge from the ICU using a multi-task framework. This approach was first introduced by Suresh et.al., (2018) <sup>13</sup> to predict in hospital mortality in the ICU. To the best of my knowledge this is the first study that uses this two step approach to predict 30 day readmission risks of heterogenous patients in the ICU. Additionally, it is key to note that this study focuses on the implementation and tests the feasibility of this modeling approach,  which if sucessfull will then lead to possible follow-ups and improvements of this study in a subsequent post.</div></p>
@@ -235,14 +235,15 @@
 <p><h3>Methods</h3>
 <div style="text-align: justify;">After preprocessing the data an autoencoder was used to first create a dense representation of the features, given their initial sparsity. The output of the autoencoder was then used to fit a Gaussian Mixture Model (GMM), which is a probabilistic model that can be synonymized with being a generalized version of the k-means by including information about the covariance structure of the data as well as the centers of the latent Gaussians.</div></p>
 
-<figure>
+<p><figure>
     <img src="/images/algo_flow.png"/> 
 </figure>
 
+<strong>Figure 1:</strong> Modeling approach demonstrating how cohort clusters were discovered prior to learning<sup>13</sup></p>
 
 <h4>Global Model Architecture:</h4>
 <div style="text-align: justify;">To help leverage the time varying variables for predicting 30-day readmission risk, a LSTM was used in each architecture. In the global model (Figure 2.), a single LSTM layer was used to train on all of the data ,creating a global baseline with the intent of demonstrating the performance of a one size fits all model versus one that has a separate dense layer for each patient group.</div>   
-**Figure 2:** Global multi-task model configuration with separate parameters for each cohort at the last output layer<sup>13</sup>
+<strong>Figure 2:</strong> Global multi-task model configuration with separate parameters for each cohort at the last output layer<sup>13</sup>
 
 <h4>Multitask Model Architecture:</h4>
 <div style="text-align: justify;">Similar to the global approach, this model used a single LSTM layer, however the final dense layer  was specific to each cohort. This presents an opportunity for the models to learn salient patterns that are only present in specific patient cohorts versus using a shared dense layer which does not account for the differences. The archiecture of this model can be see in Figure 3 below:</div>
@@ -341,7 +342,7 @@
     <img src="/images/cluster2_labs.png"/> 
 </figure>
 
-**Figure 10:** Routine laboratory variable trends over the last 48 hours prior to discharge from the ICU
+<strong>Figure 10:</strong> Routine laboratory variable trends over the last 48 hours prior to discharge from the ICU
 
 <h4>Model Results</h4>
 <div style="text-align: justify;">To assess whether the clusters play a role in better predicting a patient's risk the patient cohorts were presented to a global multi-task model and the individual dense layer multi-task model for predictig a patients 30-day readmission risk. The results shown in Table 3. while promising come at a huge cost. While the algorithms were great at predicting negative cases, they did a poor job predicting positive cases. Hence the results below might be misleading, as they are heavily based on the majority class. This is can be attributed to several factors. Having several optimziers, network sizes and learning rates with no improvements in the PPV, I suggest that a possible cause for this is mostly likley the sparsity and reduced frequency in which many of the routine physiological data is collected at closer to discharge as illustrated in Figures 9-10. This led to the development of a feature set that is heavily influenced by missing values. However this approach can work using a different feature engineering approach. Note the single task model presented in the paper also performed significantly worse than the other which the author also experienced in her study, hence it was also not included.</div>
@@ -361,13 +362,13 @@
 <h4>Future directions</h4>
 <div style="text-align: justify;">This publication is a step in the right direction of personalizing healthcare, and with some changes this modeling approach can provide some interesting insights into specific sub-populations which are often overlooked when building health related models because of the limited cohort sizes available after applying the inclusion and exclusion criteria. However, while this is only a preliminary study that explored the modeling approach as is. With further research, and well crafted features and potentially using a more robust feature engineering strategy can further propel and evolve this approach. If :</div>
 
-1. We use a channel-wise LSTM approach proposed by Harutyunyan et.al, 2017 <sup>12</sup> , to better account for missingness by explicitly showing which variables are missing as well as allowing the model to learn and store relevant information related to that specific variable before mixing with other variables with in each cluster.
-2. We embed the patient data prior to presentation to the LSTM layer, to help reduce the sparsity of the labs.
-3. We use the clinical notes to extract prior drug use and add high–risk medications such as: 
-   1. steroids
-   2. narcotics
-   3. anticholinergics
-4. Carefully crafted lab features  using values that are abnormal within the first day and last 24 hrs of stay 
+1. We use a channel-wise LSTM approach proposed by Harutyunyan et.al, 2017 <sup>12</sup> , to better account for missingness by explicitly showing which variables are missing as well as allowing the model to learn and store relevant information related to that specific variable before mixing with other variables with in each cluster.<br>
+2. We embed the patient data prior to presentation to the LSTM layer, to help reduce the sparsity of the labs.<br>
+3. We use the clinical notes to extract prior drug use and add high–risk medications such as:<br>
+   1. steroids<br>
+   2. narcotics<br>
+   3. anticholinergics<br>
+4. Carefully crafted lab features  using values that are abnormal within the first day and last 24 hrs of stay<br> 
 
 [Code is available on github](https://github.com/sparalic)
 
