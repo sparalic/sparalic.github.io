@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Deep Learning on Sparkle Russell-Puleri</title>
+    <title>deep learning on Sparkle Russell-Puleri</title>
     <link>https://sparalic.github.io/tags/deep-learning/</link>
-    <description>Recent content in Deep Learning on Sparkle Russell-Puleri</description>
+    <description>Recent content in deep learning on Sparkle Russell-Puleri</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 10 May 2020 11:58:08 -0400</lastBuildDate>
@@ -12,7 +12,7 @@
     
     
     <item>
-      <title>Predicting 30-day Readmission risk for ICU patients using a multi-task deep learning framework:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records</title>
+      <title>Predicting 30-day Readmission risk for ICU patients using a multi-task deep learning framework: Unsupervised clustering of patient sub-populations for multitask learning using electronic health records</title>
       <link>https://sparalic.github.io/post/readmission-risk-final/</link>
       <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
       
@@ -22,7 +22,7 @@ Problem Readmission whether planned or unplanned costs the U.S healthcare system
     </item>
     
     <item>
-      <title>Predicting 30-day Readmission risk for ICU patients using a multi-task deep learning framework:  unsupervised clustering of patient sub-populations for multitask learning using electronic health records</title>
+      <title>Predicting 30-day Readmission risk for ICU patients using a multi-task deep learning framework: Unsupervised clustering of patient sub-populations for multitask learning using electronic health records</title>
       <link>https://sparalic.github.io/post/readmission-risk-final/</link>
       <pubDate>Sun, 10 May 2020 11:58:08 -0400</pubDate>
       
